@@ -1,6 +1,10 @@
-# Kernel#retryable
+retryable gem
+=====
 
-## Description
+![travis-ci](http://travis-ci.org/nfedyashev/retryable.png)
+
+Description
+--------
 
 Runs a code block, and retries it when an exception occurs. It's great when
 working with flakey webservices (for example).
@@ -12,48 +16,56 @@ Should the number of retries be reached without success, the last exception
 will be raised.
 
 
-## Examples
+Examples
+--------
 
 Open an URL, retry up to two times when an `OpenURI::HTTPError` occurs.
 
-    require "retryable"
-    require "open-uri"
-    
-    retryable( :tries => 3, :on => OpenURI::HTTPError ) do
-      xml = open( "http://example.com/test.xml" ).read
-    end
+``` ruby
+require "retryable"
+require "open-uri"
+
+retryable( :tries => 3, :on => OpenURI::HTTPError ) do
+  xml = open( "http://example.com/test.xml" ).read
+end
+```
 
 Do _something_, retry up to four times for either `ArgumentError` or 
 `TimeoutError` exceptions.
 
-    require "retryable"
+``` ruby
+require "retryable"
 
-    retryable( :tries => 5, :on => [ ArgumentError, TimeoutError ] ) do
-      # some crazy code
-    end
-
+retryable( :tries => 5, :on => [ ArgumentError, TimeoutError ] ) do
+  # some crazy code
+end
+```
 
 ## Defaults
 
     :tries => 1, :on => Exception
     
   
-## Installation
+Installation
+-------
 
-First, [make sure GitHub is a gem source](http://gems.github.com/). Then, install the gem:
+Install the gem:
 
-    sudo gem install carlo-retryable
-    
+``` bash
+$ gem install retryable
+```
 
-## Todo
+Add it to your Gemfile:
 
-* Unit tests
+``` ruby
+gem 'retryable'
+```
 
 
 ## Changelog
 
-*   v1.2: FIX -- block would run twice when `:tries` was set to `0`. (Thanks for the
-    heads-up to [Tuker](http://github.com/tuker).)
+*  v1.3: stability -- Thoroughly unit-tested
+*  v1.2: FIX -- block would run twice when `:tries` was set to `0`. (Thanks for the heads-up to [Tuker](http://github.com/tuker).)
 
 
 ## Thanks
