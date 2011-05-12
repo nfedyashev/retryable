@@ -9,7 +9,7 @@ Description
 Runs a code block, and retries it when an exception occurs. It's great when
 working with flakey webservices (for example).
 
-It's configured using two optional parameters --`:tries` and `:on`--, and
+It's configured using three optional parameters --`:tries`, `:on`, `:sleep` --, and
 runs the passed block. Should an exception occur, it'll retry for (n-1) times.
 
 Should the number of retries be reached without success, the last exception
@@ -43,8 +43,17 @@ end
 
 ## Defaults
 
-    :tries => 1, :on => Exception
-    
+    :tries => 2, :on => Exception, :sleep => 1
+
+Sleeping
+--------
+By default Retryable waits for one second between retries. You can change this and even provide your own exponential backoff scheme.
+
+```
+retryable(:sleep => 0) { }                # don't pause at all between retries
+retryable(:sleep => 10) { }               # sleep ten seconds between retries
+retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
+```    
   
 Installation
 -------
@@ -52,7 +61,7 @@ Installation
 Install the gem:
 
 ``` bash
-$ gem install retryable
+$ gem install retryable --force
 ```
 
 Add it to your Gemfile:
@@ -64,6 +73,7 @@ gem 'retryable'
 
 ## Changelog
 
+*  v1.4.0: :sleep option added
 *  v1.3: stability -- Thoroughly unit-tested
 *  v1.2: FIX -- block would run twice when `:tries` was set to `0`. (Thanks for the heads-up to [Tuker](http://github.com/tuker).)
 
