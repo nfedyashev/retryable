@@ -43,7 +43,7 @@ end
 
 ## Defaults
 
-    :tries => 2, :on => Exception, :sleep => 1
+    :tries => 2, :on => Exception, :sleep => 1, :matching  => /.*/ 
 
 Sleeping
 --------
@@ -54,14 +54,33 @@ retryable(:sleep => 0) { }                # don't pause at all between retries
 retryable(:sleep => 10) { }               # sleep ten seconds between retries
 retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
 ```    
-  
+
+Matching error messages
+--------
+You can also retry based on the exception message:
+```
+:retryable(:matching => /IO timeout/) do |retries, exception|
+  raise "yo, IO timeout!" if retries == 0
+end
+```
+
+Block Parameters
+--------
+Your block is called with two optional parameters: the number of tries until now, and the most recent exception.
+```
+retryable do |retries, exception|
+  puts "try #{retries} failed with exception: #{exception}" if retries > 0
+  pick_up_soap
+end
+```
+
 Installation
 -------
 
 Install the gem:
 
 ``` bash
-$ gem install retryable --force
+$ gem install retryable
 ```
 
 Add it to your Gemfile:
@@ -73,8 +92,10 @@ gem 'retryable'
 
 ## Changelog
 
-*  v1.4.0: :sleep option added
-*  v1.3: stability -- Thoroughly unit-tested
+*  v1.2.4: added :matching option + better options validation
+*  v1.2.3: fixed dependencies
+*  v1.2.2: added :sleep option
+*  v1.2.1: stability -- Thoroughly unit-tested
 *  v1.2: FIX -- block would run twice when `:tries` was set to `0`. (Thanks for the heads-up to [Tuker](http://github.com/tuker).)
 
 
