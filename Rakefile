@@ -11,22 +11,6 @@ rescue Bundler::BundlerError => e
 end
 require 'rake'
 
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  gem.name = "retryable"
-  gem.homepage = "http://github.com/nfedyashev/retryable"
-  gem.license = "MIT"
-  gem.summary = %Q{Kernel#retryable, allow for retrying of code blocks.}
-  gem.description = %Q{Kernel#retryable, allow for retrying of code blocks.}
-  gem.email = "loci.master@gmail.com"
-  gem.authors = ["Nikita Fedyashev", "Carlo Zottmann", "Chu Yeow"]
-
-  gem.add_development_dependency 'bundler', ['>= 1.0.0']
-  gem.add_development_dependency 'rspec', '~> 2.5.0'
-
-end
-Jeweler::RubygemsDotOrgTasks.new
-
 require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
