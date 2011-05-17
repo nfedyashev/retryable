@@ -9,7 +9,7 @@ Description
 Runs a code block, and retries it when an exception occurs. It's great when
 working with flakey webservices (for example).
 
-It's configured using three optional parameters --`:tries`, `:on`, `:sleep` --, and
+It's configured using three optional parameters --`:tries`, `:on`, `:sleep`, `:matching`--, and
 runs the passed block. Should an exception occur, it'll retry for (n-1) times.
 
 Should the number of retries be reached without success, the last exception
@@ -58,8 +58,9 @@ retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
 Matching error messages
 --------
 You can also retry based on the exception message:
+
 ```
-:retryable(:matching => /IO timeout/) do |retries, exception|
+retryable(:matching => /IO timeout/) do |retries, exception|
   raise "yo, IO timeout!" if retries == 0
 end
 ```
@@ -67,6 +68,7 @@ end
 Block Parameters
 --------
 Your block is called with two optional parameters: the number of tries until now, and the most recent exception.
+
 ```
 retryable do |retries, exception|
   puts "try #{retries} failed with exception: #{exception}" if retries > 0
@@ -92,6 +94,7 @@ gem 'retryable'
 
 ## Changelog
 
+*  v1.2.5: became friendly to any rubygems version installed
 *  v1.2.4: added :matching option + better options validation
 *  v1.2.3: fixed dependencies
 *  v1.2.2: added :sleep option
