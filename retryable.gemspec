@@ -2,10 +2,10 @@
 
 Gem::Specification.new do |s|
   s.name = %q{retryable}
-  s.version = "1.2.3"
+  s.version = "1.2.4"
 
   s.authors = ["Nikita Fedyashev", "Carlo Zottmann", "Chu Yeow"]
-  s.date = %q{2011-05-16}
+  s.date = %q{2011-05-17}
   s.description = %q{Kernel#retryable, allow for retrying of code blocks.}
   s.email = %q{loci.master@gmail.com}
   s.extra_rdoc_files = [
