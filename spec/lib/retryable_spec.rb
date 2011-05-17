@@ -13,7 +13,7 @@ describe 'retryable' do
     @try_count.should == 2
   end
 
-  it "should make another try if exception is in whitelist" do
+  it "should make another try if exception is covered by :on" do
     Kernel.stub!(:sleep)
     count_retryable(:on => [StandardError, ArgumentError, RuntimeError] ) { |tries, ex| raise ArgumentError if tries < 1 }
     @try_count.should == 2
@@ -47,7 +47,33 @@ describe 'retryable' do
     end.should raise_error RangeError
   end
 
-  #retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
+  it "doesn't retry any exception if :on is empty list" do
+    lambda do
+      count_retryable(:on => []) { raise }
+    end.should raise_error RuntimeError
+    @try_count.should == 1
+  end
+
+  it "should catch an exception that matches the regex" do
+    Kernel.should_receive(:sleep).once.with(1)
+    count_retryable(:matching => /IO timeout/) { |c,e| raise "yo, IO timeout!" if c == 0 }
+    @try_count.should == 2
+  end
+
+  it "should not catch an exception that doesn't match the regex" do
+    should_not_receive :sleep
+    lambda do
+      count_retryable(:matching => /TimeError/) { raise "yo, IO timeout!" }
+    end.should raise_error RuntimeError
+    @try_count.should == 1
+  end
+
+  it "doesn't allow invalid options" do
+    lambda do
+      retryable(:bad_option => 2) { raise "this is bad" }
+    end.should raise_error InvalidRetryableOptions
+  end
+
   private
 
   def count_retryable *opts
