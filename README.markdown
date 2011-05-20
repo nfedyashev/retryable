@@ -104,6 +104,7 @@ gem 'retryable'
 
 ## Thanks
 
-Many thanks to [Chu Yeow for this nifty piece of code](http://blog.codefront.net/2008/01/14/retrying-code-blocks-in-ruby-on-exceptions-whatever/). Look, I liked it
-enough to enhance it a little bit and build a gem from it! :)
+[Chu Yeow for this nifty piece of code](http://blog.codefront.net/2008/01/14/retrying-code-blocks-in-ruby-on-exceptions-whatever/)
+[Scott Bronson](https://github.com/bronson/retryable)
+
 
