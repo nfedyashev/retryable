@@ -9,7 +9,7 @@ Description
 Runs a code block, and retries it when an exception occurs. It's great when
 working with flakey webservices (for example).
 
-It's configured using three optional parameters --`:tries`, `:on`, `:sleep`, `:matching`--, and
+It's configured using four optional parameters --`:tries`, `:on`, `:sleep`, `:matching`--, and
 runs the passed block. Should an exception occur, it'll retry for (n-1) times.
 
 Should the number of retries be reached without success, the last exception
