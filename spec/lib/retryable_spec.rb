@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'retryable' do
 
-  before(:each) do
-    @attempt = 0
-  end
-
   it "should retry on default exception" do
     Kernel.should_receive(:sleep).once.with(1)
 
@@ -73,14 +69,22 @@ describe 'retryable' do
       retryable(:bad_option => 2) { raise "this is bad" }
     end.should raise_error InvalidRetryableOptions
   end
+  
+end
 
-  private
-
-  def count_retryable *opts
-    @try_count = 0
-    return Kernel.retryable(*opts) do |*args|
-      @try_count += 1
-      yield *args
-    end
+describe 'retryable disabled' do
+  
+  around(:each) do |example|
+    Retryable.disable!
+    example.run
+    Retryable.enable!
   end
+  
+  it "should not retry if disabled" do
+    lambda do
+      count_retryable(:tries => 2) { raise }
+    end.should raise_error RuntimeError
+    @try_count.should == 1
+  end
+  
 end
