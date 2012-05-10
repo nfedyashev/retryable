@@ -1,3 +1,4 @@
+require 'retryable/config'
 
 module Kernel
   class InvalidRetryableOptions < RuntimeError; end
@@ -15,6 +16,7 @@ module Kernel
     begin
       return yield retries
     rescue *retry_exception => exception
+      raise unless Retryable::Config.instance.allow_retry
       raise unless exception.message =~ opts[:matching]
       raise if retries+1 >= opts[:tries]
       sleep opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
