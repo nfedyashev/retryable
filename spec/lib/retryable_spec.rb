@@ -6,6 +6,13 @@ describe 'retryable' do
     @attempt = 0
   end
 
+  it "should only catch StandardError by default" do    
+    lambda do
+      count_retryable(:tries => 2) { |tries, ex| raise Exception if tries < 1 }
+    end.should raise_error Exception
+    @try_count.should == 1
+  end
+  
   it "should retry on default exception" do
     Kernel.should_receive(:sleep).once.with(1)
 
@@ -13,6 +20,16 @@ describe 'retryable' do
     @try_count.should == 2
   end
 
+  it "should pass retry count and exception on retry" do
+    Kernel.should_receive(:sleep).once.with(1)
+
+    count_retryable(:tries => 2) do |tries, ex| 
+      ex.class.should == StandardError if tries > 0
+      raise StandardError if tries < 1 
+    end
+    @try_count.should == 2
+  end
+  
   it "should make another try if exception is covered by :on" do
     Kernel.stub!(:sleep)
     count_retryable(:on => [StandardError, ArgumentError, RuntimeError] ) { |tries, ex| raise ArgumentError if tries < 1 }
