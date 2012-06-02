@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = %q{retryable}
-  s.version       = "1.2.5"
+  s.version       = "1.3.0"
   s.authors       = ["Nikita Fedyashev", "Carlo Zottmann", "Chu Yeow"]
   s.date          = %q{2011-05-17}
   s.description   = %q{Kernel#retryable, allow for retrying of code blocks.}
