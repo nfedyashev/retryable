@@ -2,3 +2,6 @@ pkg/*
 *.gem
 .bundle
 Gemfile.lock
+
+# rubinius byte code files
+*.rbc
