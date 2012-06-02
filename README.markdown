@@ -94,6 +94,7 @@ gem 'retryable'
 
 ## Changelog
 
+*  v1.3.0: StandardError is now default exception for rescuing.
 *  v1.2.5: became friendly to any rubygems version installed
 *  v1.2.4: added :matching option + better options validation
 *  v1.2.3: fixed dependencies
