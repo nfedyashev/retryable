@@ -18,7 +18,13 @@ module Kernel
     rescue *on_exception => exception
       raise unless exception.message =~ opts[:matching]
       raise if retries+1 >= opts[:tries]
-      sleep opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
+
+      # Interrupt Exception could be raised while sleeping
+      begin
+        sleep opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
+      rescue *on_exception
+      end
+
       retries += 1
       retry_exception = exception
       retry
