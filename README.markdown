@@ -43,7 +43,7 @@ end
 
 ## Defaults
 
-    :tries => 2, :on => Exception, :sleep => 1, :matching  => /.*/ 
+    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/ 
 
 Sleeping
 --------
