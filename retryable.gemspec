@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.summary       = %q{Kernel#retryable, allow for retrying of code blocks.}
 
   s.extra_rdoc_files = [
-    "README.markdown"
+    "README.md"
   ]
 
   if s.respond_to? :specification_version then
