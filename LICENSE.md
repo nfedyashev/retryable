@@ -1,6 +1,7 @@
 (The MIT License) 
 
 Copyright (c) 2011 Carlo Zottmann
+
 Copyright (c) 2012 Nikita Fedyashev
 
 Permission is hereby granted, free of charge, to any person obtaining
