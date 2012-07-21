@@ -1,7 +1,7 @@
 
 module Kernel
   def retryable(options = {}, &block)
-    opts = {:tries => 2, :sleep => 1, :on => StandardError, :matching  => /.*/}
+    opts = {:tries => 2, :sleep => 1, :on => StandardError, :matching  => /.*/, :ensure => Proc.new {}}
     check_for_invalid_options(options, opts)
     opts.merge!(options)
 
@@ -26,6 +26,8 @@ module Kernel
       retries += 1
       retry_exception = exception
       retry
+    ensure
+      opts[:ensure].call(retries)
     end
   end
 

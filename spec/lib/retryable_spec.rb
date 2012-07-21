@@ -6,7 +6,7 @@ describe 'retryable' do
     @attempt = 0
   end
 
-  it "should only catch StandardError by default" do    
+  it "should only catch StandardError by default" do
     lambda do
       count_retryable(:tries => 2) { |tries, ex| raise Exception if tries < 1 }
     end.should raise_error Exception
@@ -18,6 +18,14 @@ describe 'retryable' do
 
     count_retryable(:tries => 2) { |tries, ex| raise StandardError if tries < 1 }
     @try_count.should == 2
+  end
+
+  it "should execute *ensure* clause" do
+    ensure_cb  = Proc.new do |retries|
+      retries.should == 0
+    end
+
+    Kernel.retryable(:ensure => ensure_cb) { }
   end
 
   it "should pass retry count and exception on retry" do
