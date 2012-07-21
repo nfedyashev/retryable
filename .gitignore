@@ -1,6 +1,8 @@
 pkg/*
 *.gem
 .bundle
+.yardoc
+doc/*
 Gemfile.lock
 
 # rubinius byte code files
