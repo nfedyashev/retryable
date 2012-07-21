@@ -3,16 +3,16 @@ module Kernel
   class InvalidRetryableOptions < RuntimeError; end
 
   def retryable(options = {}, &block)
-    opts = { :tries => 2, :sleep => 1, :on => StandardError, :matching  => /.*/ }
+    opts = {:tries => 2, :sleep => 1, :on => StandardError, :matching  => /.*/}
     check_for_invalid_options(options, opts)
     opts.merge!(options)
 
-    return nil if opts[:tries] == 0
+    return if opts[:tries] == 0
 
     on_exception, tries = [ opts[:on] ].flatten, opts[:tries]
     retries = 0
     retry_exception = nil
-    
+
     begin
       return yield retries, retry_exception
     rescue *on_exception => exception
