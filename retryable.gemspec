@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.required_rubygems_version = '>= 1.3.6'
   gem.summary = %q{Kernel#retryable, allow for retrying of code blocks.}
   gem.test_files = Dir.glob("spec/**/*")
-  gem.version = "1.3.0"
+  gem.version = "1.3.1"
 end
