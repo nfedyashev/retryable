@@ -88,7 +88,7 @@ describe 'retryable' do
   it "doesn't allow invalid options" do
     lambda do
       retryable(:bad_option => 2) { raise "this is bad" }
-    end.should raise_error InvalidRetryableOptions
+    end.should raise_error ArgumentError, '[Retryable] Invalid options: bad_option'
   end
 
   private
