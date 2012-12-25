@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe 'retryable' do
-
+describe 'Kernel.retryable' do
   before(:each) do
+    Retryable.enable
     @attempt = 0
   end
 
@@ -18,6 +18,15 @@ describe 'retryable' do
 
     count_retryable(:tries => 2) { |tries, ex| raise StandardError if tries < 1 }
     @try_count.should == 2
+  end
+
+  it "should not retry if disabled" do
+    Retryable.disable
+
+    lambda do
+      count_retryable(:tries => 2) { raise }
+    end.should raise_error RuntimeError
+    @try_count.should == 1
   end
 
   it "should execute *ensure* clause" do

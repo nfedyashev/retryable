@@ -89,6 +89,19 @@ retryable do |retries, exception|
 end
 ```
 
+You can temporary disable retryable blocks
+--------
+
+```
+Retryble.enabled?
+=> true
+
+Retryble.disable
+
+Retryble.enabled?
+=> false
+```
+
 Installation
 -------
 

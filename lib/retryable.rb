@@ -1,3 +1,4 @@
+require 'config'
 
 module Kernel
   def retryable(options = {}, &block)
@@ -14,6 +15,7 @@ module Kernel
     begin
       return yield retries, retry_exception
     rescue *on_exception => exception
+      raise unless Retryable.enabled?
       raise unless exception.message =~ opts[:matching]
       raise if retries+1 >= opts[:tries]
 
@@ -39,3 +41,4 @@ module Kernel
     raise ArgumentError.new("[Retryable] Invalid options: #{invalid_options.join(", ")}") unless invalid_options.empty?
   end
 end
+
