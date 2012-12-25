@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+require File.expand_path('../lib/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.add_development_dependency 'bundler'
@@ -14,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.name = 'retryable'
   gem.require_paths = ["lib"]
   gem.required_rubygems_version = '>= 1.3.6'
-  gem.summary = %q{Kernel#retryable, allow for retrying of code blocks.}
+  gem.summary = gem.description
   gem.test_files = Dir.glob("spec/**/*")
-  gem.version = "1.3.1"
+  gem.version = Retryable::Version
 end
