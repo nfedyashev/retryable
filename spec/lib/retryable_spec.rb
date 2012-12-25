@@ -107,14 +107,4 @@ describe 'Kernel.retryable' do
       retryable(:bad_option => 2) { raise "this is bad" }
     end.should raise_error ArgumentError, '[Retryable] Invalid options: bad_option'
   end
-
-  private
-
-  def count_retryable *opts
-    @try_count = 0
-    return Kernel.retryable(*opts) do |*args|
-      @try_count += 1
-      yield *args
-    end
-  end
 end
