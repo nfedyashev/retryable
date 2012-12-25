@@ -1,7 +1,7 @@
 retryable gem
 =====
 
-![travis-ci](http://travis-ci.org/nfedyashev/retryable.png)
+[![Build Status](https://travis-ci.org/nfedyashev/retryable.png?branch=master)](https://travis-ci.org/nfedyashev/retryable)
 
 Description
 --------
@@ -120,5 +120,6 @@ gem 'retryable'
 ## Thanks
 
 [Chu Yeow for this nifty piece of code](http://blog.codefront.net/2008/01/14/retrying-code-blocks-in-ruby-on-exceptions-whatever/)
+
 [Scott Bronson](https://github.com/bronson/retryable)
 
