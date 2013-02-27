@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../lib/retryable'
+require File.dirname(__FILE__) + '/../lib/retryable/core_ext/kernel'
 require 'rspec'
 
 RSpec.configure do |config|

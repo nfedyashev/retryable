@@ -107,4 +107,14 @@ describe 'Kernel.retryable' do
       retryable(:bad_option => 2) { raise "this is bad" }
     end.should raise_error ArgumentError, '[Retryable] Invalid options: bad_option'
   end
+
+  it 'defines a retryable method on Retryable' do
+    count = 0
+    Retryable.retryable(:tries => 2) do
+      count += 1
+      raise "whatever" if count < 2
+    end
+
+    count.should == 2
+  end
 end
