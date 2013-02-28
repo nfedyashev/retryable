@@ -24,7 +24,7 @@ Open an URL, retry up to two times when an `OpenURI::HTTPError` occurs.
 ``` ruby
 require "open-uri"
 
-retryable(:tries => 3, :on => OpenURI::HTTPError) do
+Retryable.retryable(:tries => 3, :on => OpenURI::HTTPError) do
   xml = open("http://example.com/test.xml").read
 end
 ```
@@ -33,7 +33,7 @@ Do _something_, retry up to four times for either `ArgumentError` or
 `TimeoutError` exceptions.
 
 ``` ruby
-retryable(:tries => 5, :on => [ArgumentError, TimeoutError]) do
+Retryable.retryable(:tries => 5, :on => [ArgumentError, TimeoutError]) do
   # some crazy code
 end
 ```
@@ -49,31 +49,33 @@ ensure_cb = Proc.new do |retries|
   f.close
 end
 
-retryable(:ensure => ensure_cb) do
+Retryable.retryable(:ensure => ensure_cb) do
   # process file
 end
 ```
 
-## Defaults
-
-    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }
+Defaults
+--------
+``` ruby
+:tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }
+```
 
 Sleeping
 --------
 By default Retryable waits for one second between retries. You can change this and even provide your own exponential backoff scheme.
 
-```
-retryable(:sleep => 0) { }                # don't pause at all between retries
-retryable(:sleep => 10) { }               # sleep ten seconds between retries
-retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
+``` ruby
+Retryable.retryable(:sleep => 0) { }                # don't pause at all between retries
+Retryable.retryable(:sleep => 10) { }               # sleep ten seconds between retries
+Retryable.retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
 ```    
 
 Matching error messages
 --------
 You can also retry based on the exception message:
 
-```
-retryable(:matching => /IO timeout/) do |retries, exception|
+``` ruby
+Retryable.retryable(:matching => /IO timeout/) do |retries, exception|
   raise "yo, IO timeout!" if retries == 0
 end
 ```
@@ -82,8 +84,8 @@ Block Parameters
 --------
 Your block is called with two optional parameters: the number of tries until now, and the most recent exception.
 
-```
-retryable do |retries, exception|
+``` ruby
+Retryable.retryable do |retries, exception|
   puts "try #{retries} failed with exception: #{exception}" if retries > 0
   pick_up_soap
 end
@@ -92,7 +94,7 @@ end
 You can temporary disable retryable blocks
 --------
 
-```
+``` ruby
 Retryble.enabled?
 => true
 
@@ -100,6 +102,25 @@ Retryble.disable
 
 Retryble.enabled?
 => false
+```
+
+Monkey patching Kernel
+--------
+To add retryable to both Kernel and the global namespace:
+
+``` ruby
+require "retryable/core_ext/kernel"
+require "open-uri"
+
+Kernel.retryable(:tries => 3, :on => OpenURI::HTTPError) do
+  xml = open("http://example.com/test.xml").read
+end
+
+# Or..
+
+retryable(:tries => 3, :on => OpenURI::HTTPError) do
+  xml = open("http://example.com/test.xml").read
+end
 ```
 
 Installation

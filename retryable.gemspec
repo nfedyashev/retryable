@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/version', __FILE__)
+require File.expand_path('../lib/retryable/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.add_development_dependency 'bundler'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'yard'
-  gem.authors = ["Nikita Fedyashev", "Carlo Zottmann", "Chu Yeow"]
+  gem.authors = ["Nikita Fedyashev", "Carlo Zottmann", "Chu Yeow", "Matthew Kocher"]
   gem.description = %q{Kernel#retryable, allow for retrying of code blocks.}
   gem.email = %q{loci.master@gmail.com}
   gem.files = %w(CHANGELOG.md LICENSE.md README.md Rakefile retryable.gemspec)
