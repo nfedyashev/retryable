@@ -1,3 +1,7 @@
+## Retryable 1.3.3 ##
+
+*   Retryable::Version constant typo has been fixed
+
 ## Retryable 1.3.2 ##
 
 *   Retryable.disable method has been added
