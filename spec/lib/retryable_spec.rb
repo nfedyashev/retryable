@@ -102,6 +102,34 @@ describe 'Kernel.retryable' do
     @try_count.should == 1
   end
 
+  it 'catches an exception for which the matching lambda returns true' do
+    Kernel.should_receive(:sleep).once.with(1)
+    count_retryable(:matching => Proc.new {|_| true}) { |c,e| raise "yo, IO timeout!" if c == 0 }
+    @try_count.should == 2
+  end
+  
+  it 'catches an exception for which the matching proc returns true' do
+    Kernel.should_receive(:sleep).once.with(1)
+    count_retryable(:matching => lambda {|_| true}) { |c,e| raise "yo, IO timeout!" if c == 0 }
+    @try_count.should == 2
+  end
+
+  it 'does not catch an exception for which the matching lambda returns true' do
+    should_not_receive :sleep
+    lambda do
+      count_retryable(:matching => lambda {|_| false}) { raise "yo, IO timeout!" }
+    end.should raise_error RuntimeError
+    @try_count.should == 1
+  end
+  
+  it 'deos not catch an exception for which the matching proc returns true' do
+    should_not_receive :sleep
+    lambda do
+      count_retryable(:matching => Proc.new {|_| false}) { raise "yo, IO timeout!" }
+    end.should raise_error RuntimeError
+    @try_count.should == 1
+  end
+
   it 'does not allow invalid options' do
     lambda do
       retryable(:bad_option => 2) { raise "this is bad" }

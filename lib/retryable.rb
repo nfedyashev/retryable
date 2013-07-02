@@ -17,7 +17,8 @@ module Kernel
       return yield retries, retry_exception
     rescue *on_exception => exception
       raise unless Retryable.enabled?
-      raise unless exception.message =~ opts[:matching]
+
+      raise unless retryable?(exception, opts[:matching])
       raise if retries+1 >= opts[:tries]
 
       # Interrupt Exception could be raised while sleeping
@@ -35,6 +36,14 @@ module Kernel
   end
 
   private
+
+  def retryable?(exception, matching)
+    if matching.is_a?(Regexp)
+      exception.message =~ matching
+    else
+      matching.call(exception)
+    end
+  end
 
   def check_for_invalid_options(custom_options, default_options)
     invalid_options = default_options.merge(custom_options).keys - default_options.keys
