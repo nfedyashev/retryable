@@ -58,7 +58,6 @@ retryable(:raise => false) do
 end
 ```
 
-
 Ensure that block of code is executed, regardless of whether an exception was raised. It doesn't matter if the block exits normally, if it retries to execute block of code, or if it is terminated by an uncaught exception -- the ensure block will get run.
 
 ``` ruby
