@@ -29,12 +29,26 @@ describe 'Kernel.retryable' do
     @try_count.should == 1
   end
 
+  it 'does not raise if :raise is false' do
+    lambda do
+      count_retryable(:raise => false) { raise }
+    end.should_not raise_error RuntimeError
+  end
+
   it 'executes *ensure* clause' do
     ensure_cb  = Proc.new do |retries|
       retries.should == 0
     end
 
     Kernel.retryable(:ensure => ensure_cb) { }
+  end
+
+  it 'executes *finally* clause' do
+    finally_cb  = Proc.new do |exception, retries|
+      retries.should == 2
+    end
+
+    Kernel.retryable(:tries => 3, :raise => false, :finally => finally_cb) { raise }
   end
 
   it 'passes retry count and exception on retry' do

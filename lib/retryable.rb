@@ -3,7 +3,7 @@ require 'config'
 
 module Kernel
   def retryable(options = {}, &block)
-    opts = {:tries => 2, :sleep => 1, :on => StandardError, :matching  => /.*/, :ensure => Proc.new {}}
+    opts = {:tries => 2, :sleep => 1, :on => StandardError, :matching  => /.*/, :ensure => Proc.new {}, :finally => Proc.new {}, :raise => true}
     check_for_invalid_options(options, opts)
     opts.merge!(options)
 
@@ -18,17 +18,20 @@ module Kernel
     rescue *on_exception => exception
       raise unless Retryable.enabled?
       raise unless exception.message =~ opts[:matching]
-      raise if retries+1 >= opts[:tries]
+      if retries+1 >= opts[:tries]
+        opts[:finally].call(exception, retries)
+        raise if opts[:raise]
+      else
+        # Interrupt Exception could be raised while sleeping
+        begin
+          sleep opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
+        rescue *on_exception
+        end
 
-      # Interrupt Exception could be raised while sleeping
-      begin
-        sleep opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
-      rescue *on_exception
+        retries += 1
+        retry_exception = exception
+        retry
       end
-
-      retries += 1
-      retry_exception = exception
-      retry
     ensure
       opts[:ensure].call(retries)
     end
