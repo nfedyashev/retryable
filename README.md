@@ -38,6 +38,26 @@ retryable(:tries => 5, :on => [ArgumentError, TimeoutError]) do
 end
 ```
 
+Run a block of code when the number of tries runs out.
+
+``` ruby
+finally_cb = Proc.new do |exception, retries|
+  log "#{exception.class} raised too many times. Total number of attempts: #{retries + 1}"
+end
+
+retryable(:finally => finally_cb) do
+  # code here...
+end
+```
+
+Run a block of retryable code without raising an exception at all.
+
+``` ruby
+retryable(:raise => false) do
+  # code here...
+end
+
+
 Ensure that block of code is executed, regardless of whether an exception was raised. It doesn't matter if the block exits normally, if it retries to execute block of code, or if it is terminated by an uncaught exception -- the ensure block will get run.
 
 ``` ruby
@@ -56,7 +76,7 @@ end
 
 ## Defaults
 
-    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }
+    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }, :finally => Proc.new { }, :raise => true
 
 Sleeping
 --------
