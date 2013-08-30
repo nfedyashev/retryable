@@ -40,21 +40,21 @@ describe 'Kernel.retryable' do
   it 'passes retry count and exception on retry' do
     Kernel.should_receive(:sleep).once.with(1)
 
-    count_retryable(:tries => 2) do |tries, ex| 
+    count_retryable(:tries => 2) do |tries, ex|
       ex.class.should == StandardError if tries > 0
-      raise StandardError if tries < 1 
+      raise StandardError if tries < 1
     end
     @try_count.should == 2
   end
 
   it 'makes another try if exception is covered by :on' do
-    Kernel.stub!(:sleep)
+    Kernel.stub(:sleep)
     count_retryable(:on => [StandardError, ArgumentError, RuntimeError] ) { |tries, ex| raise ArgumentError if tries < 1 }
     @try_count.should == 2
   end
 
   it 'does not try on unexpected exception' do
-    Kernel.stub!(:sleep)
+    Kernel.stub(:sleep)
     lambda do
       count_retryable(:on => RuntimeError ) { |tries, ex| raise StandardError if tries < 1 }
     end.should raise_error StandardError
@@ -62,7 +62,7 @@ describe 'Kernel.retryable' do
   end
 
   it 'retries three times' do
-    Kernel.stub!(:sleep)
+    Kernel.stub(:sleep)
     count_retryable(:tries => 3) { |tries, ex| raise StandardError if tries < 2 }
     @try_count.should == 3
   end
