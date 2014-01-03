@@ -29,7 +29,7 @@ retryable(:tries => 3, :on => OpenURI::HTTPError) do
 end
 ```
 
-Do _something_, retry up to four times for either `ArgumentError` or 
+Do _something_, retry up to four times for either `ArgumentError` or
 `TimeoutError` exceptions.
 
 ``` ruby
@@ -66,7 +66,7 @@ By default Retryable waits for one second between retries. You can change this a
 retryable(:sleep => 0) { }                # don't pause at all between retries
 retryable(:sleep => 10) { }               # sleep ten seconds between retries
 retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
-```    
+```
 
 Matching error messages
 --------
