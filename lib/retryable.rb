@@ -1,5 +1,5 @@
-require 'version'
-require 'config'
+require 'retryable/version'
+require 'retryable/config'
 
 module Kernel
   def retryable(options = {}, &block)
