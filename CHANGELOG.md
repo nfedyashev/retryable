@@ -1,3 +1,7 @@
+## Retryable 1.3.4 ##
+
+*   Namespace issue has been fixed. Thanks @darkhelmet
+
 ## Retryable 1.3.3 ##
 
 *   Retryable::Version constant typo has been fixed
