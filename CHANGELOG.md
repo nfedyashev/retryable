@@ -1,3 +1,7 @@
+## Retryable 1.3.5 ##
+
+*   New callback option(:exception_cb) to run after an rescued exception is introduced. Thanks @jondruse
+
 ## Retryable 1.3.4 ##
 
 *   Namespace issue has been fixed. Thanks @darkhelmet
