@@ -113,6 +113,27 @@ Retryble.enabled?
 => false
 ```
 
+Supported Ruby Versions
+-------
+
+This library aims to support and is [tested against][travis] the following Ruby
+versions:
+
+* Ruby 1.8.7
+* Ruby 1.9.2
+* Ruby 1.9.3
+* Ruby 2.0.0
+* Ruby 2.1.0
+
+If something doesn't work on one of these versions, it's a bug.
+
+This library may inadvertently work (or seem to work) on other Ruby versions,
+however support will only be provided for the versions listed above.
+
+If you would like this library to support another Ruby version or
+implementation, you may volunteer to be a maintainer.
+
+
 Installation
 -------
 
@@ -134,3 +155,4 @@ gem 'retryable'
 
 [Scott Bronson](https://github.com/bronson/retryable)
 
+[travis]: http://travis-ci.org/nfedyashev/retryable
