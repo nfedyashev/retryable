@@ -9,7 +9,7 @@ Description
 Runs a code block, and retries it when an exception occurs. It's great when
 working with flakey webservices (for example).
 
-It's configured using four optional parameters `:tries`, `:on`, `:sleep`, `:matching`, `:ensure` and
+It's configured using four optional parameters `:tries`, `:on`, `:sleep`, `:matching`, `:ensure`, `:exception_cb` and
 runs the passed block. Should an exception occur, it'll retry for (n-1) times.
 
 Should the number of retries be reached without success, the last exception
@@ -56,7 +56,7 @@ end
 
 ## Defaults
 
-    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }
+    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }, :exception_cb => Proc.new { }
 
 Sleeping
 --------
@@ -88,6 +88,17 @@ retryable do |retries, exception|
   pick_up_soap
 end
 ```
+
+Callback to run after an exception is rescued
+--------
+exception_cb = Proc.new do |exception|
+  ExceptionNotifier.notify_exception(exception, :data => {:message => "it failed"}) # http://smartinez87.github.io/exception_notification
+end
+
+retryable(:exception_cb => exception_cb) do
+  # perform risky operation
+end
+
 
 You can temporary disable retryable blocks
 --------
