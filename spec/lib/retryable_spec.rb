@@ -107,4 +107,12 @@ describe 'Kernel.retryable' do
       retryable(:bad_option => 2) { raise "this is bad" }
     end.should raise_error ArgumentError, '[Retryable] Invalid options: bad_option'
   end
+
+  it 'accepts a callback to run after an exception is rescued' do
+    lambda do
+      retryable(:sleep => 0, :exception_cb => Proc.new {|e| @raised = e.to_s }) {|tries, ex| raise StandardError.new("this is fun!") if tries < 1 }
+    end.should_not raise_error
+
+    @raised.should == "this is fun!"
+  end
 end
