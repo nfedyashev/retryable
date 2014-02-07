@@ -91,14 +91,17 @@ end
 
 Callback to run after an exception is rescued
 --------
+
+```
 exception_cb = Proc.new do |exception|
-  ExceptionNotifier.notify_exception(exception, :data => {:message => "it failed"}) # http://smartinez87.github.io/exception_notification
+  # http://smartinez87.github.io/exception_notification
+  ExceptionNotifier.notify_exception(exception, :data => {:message => "it failed"})
 end
 
 retryable(:exception_cb => exception_cb) do
   # perform risky operation
 end
-
+```
 
 You can temporary disable retryable blocks
 --------
