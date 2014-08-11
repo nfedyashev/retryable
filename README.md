@@ -107,12 +107,12 @@ You can temporary disable retryable blocks
 --------
 
 ```
-Retryble.enabled?
+Retryable.enabled?
 => true
 
-Retryble.disable
+Retryable.disable
 
-Retryble.enabled?
+Retryable.enabled?
 => false
 ```
 
