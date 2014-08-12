@@ -72,8 +72,16 @@ Matching error messages
 --------
 You can also retry based on the exception message:
 
+Using Regex, don't raise if the exception message matches the supplied regex:
 ```
 retryable(:matching => /IO timeout/) do |retries, exception|
+  raise "yo, IO timeout!" if retries == 0
+end
+```
+
+Using lambda/Proc, don't raise if the supplied lambda returns true:
+```
+retryable(:matching => lambda {|e| e.is_a?(RuntimeError) && e.message =~ /IO timeout/}) do |retries, exception|
   raise "yo, IO timeout!" if retries == 0
 end
 ```
