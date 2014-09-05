@@ -18,7 +18,7 @@ module Kernel
     rescue *on_exception => exception
       raise unless Retryable.enabled?
       raise unless exception.message =~ opts[:matching]
-      raise if retries+1 >= opts[:tries]
+      raise if retries+1 >= tries
 
       # Interrupt Exception could be raised while sleeping
       begin
