@@ -2,7 +2,7 @@ module Retryable
   class Version
     MAJOR = 1 unless defined? Retryable::Version::MAJOR
     MINOR = 3 unless defined? Retryable::Version::MINOR
-    PATCH = 5 unless defined? Retryable::Version::PATCH
+    PATCH = 6 unless defined? Retryable::Version::PATCH
 
     class << self
 
