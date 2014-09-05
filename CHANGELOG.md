@@ -1,3 +1,7 @@
+## Retryable 1.3.6 ##
+
+*   Fixed warning: assigned but unused variable - tries. Thanks @amatsuda
+
 ## Retryable 1.3.5 ##
 
 *   New callback option(:exception_cb) to run after an rescued exception is introduced. Thanks @jondruse
