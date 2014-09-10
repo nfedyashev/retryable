@@ -22,7 +22,7 @@ module Kernel
 
       # Interrupt Exception could be raised while sleeping
       begin
-        sleep opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
+        Kernel.sleep opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
       rescue *on_exception
       end
 
