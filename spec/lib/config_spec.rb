@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe Retryable do
+RSpec.describe Retryable do
   it 'is enabled by default' do
-    Retryable.should be_enabled
+    expect(Retryable).to be_enabled
   end
 
   it 'could be disabled' do
     Retryable.disable
-    Retryable.should_not be_enabled
+    expect(Retryable).not_to be_enabled
   end
 
   context 'when disabled' do
@@ -17,7 +17,7 @@ describe Retryable do
 
     it 'could be re-enabled' do
       Retryable.enable
-      Retryable.should be_enabled
+      expect(Retryable).to be_enabled
     end
   end
 end
