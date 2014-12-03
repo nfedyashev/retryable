@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Kernel.retryable' do
+RSpec.describe 'Retryable.retryable' do
   before(:each) do
     Retryable.enable
     @attempt = 0
@@ -34,7 +34,7 @@ RSpec.describe 'Kernel.retryable' do
       expect(retries).to eq(0)
     end
 
-    Kernel.retryable(:ensure => ensure_cb) { }
+    Retryable.retryable(:ensure => ensure_cb) { }
   end
 
   it 'passes retry count and exception on retry' do
@@ -77,7 +77,7 @@ RSpec.describe 'Kernel.retryable' do
   it 'executes exponential backoff scheme for :sleep option' do
     [1, 4, 16, 64].each { |i| expect(Kernel).to receive(:sleep).once.ordered.with(i) }
     expect do
-      Kernel.retryable(:tries => 5, :sleep => lambda { |n| 4**n }) { raise RangeError }
+      Retryable.retryable(:tries => 5, :sleep => lambda { |n| 4**n }) { raise RangeError }
     end.to raise_error RangeError
   end
 
@@ -104,13 +104,13 @@ RSpec.describe 'Kernel.retryable' do
 
   it 'does not allow invalid options' do
     expect do
-      retryable(:bad_option => 2) { raise "this is bad" }
+      Retryable.retryable(:bad_option => 2) { raise "this is bad" }
     end.to raise_error ArgumentError, '[Retryable] Invalid options: bad_option'
   end
 
   it 'accepts a callback to run after an exception is rescued' do
     expect do
-      retryable(:sleep => 0, :exception_cb => Proc.new {|e| @raised = e.to_s }) {|tries, ex| raise StandardError.new("this is fun!") if tries < 1 }
+      Retryable.retryable(:sleep => 0, :exception_cb => Proc.new {|e| @raised = e.to_s }) {|tries, ex| raise StandardError.new("this is fun!") if tries < 1 }
     end.not_to raise_error
 
     expect(@raised).to eq("this is fun!")

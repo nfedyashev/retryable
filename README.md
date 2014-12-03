@@ -24,7 +24,7 @@ Open an URL, retry up to two times when an `OpenURI::HTTPError` occurs.
 ``` ruby
 require "open-uri"
 
-retryable(:tries => 3, :on => OpenURI::HTTPError) do
+Retryable.retryable(:tries => 3, :on => OpenURI::HTTPError) do
   xml = open("http://example.com/test.xml").read
 end
 ```
@@ -33,7 +33,7 @@ Do _something_, retry up to four times for either `ArgumentError` or
 `TimeoutError` exceptions.
 
 ``` ruby
-retryable(:tries => 5, :on => [ArgumentError, TimeoutError]) do
+Retryable.retryable(:tries => 5, :on => [ArgumentError, TimeoutError]) do
   # some crazy code
 end
 ```
@@ -49,7 +49,7 @@ ensure_cb = Proc.new do |retries|
   f.close
 end
 
-retryable(:ensure => ensure_cb) do
+Retryable.retryable(:ensure => ensure_cb) do
   # process file
 end
 ```
@@ -63,9 +63,9 @@ Sleeping
 By default Retryable waits for one second between retries. You can change this and even provide your own exponential backoff scheme.
 
 ```
-retryable(:sleep => 0) { }                # don't pause at all between retries
-retryable(:sleep => 10) { }               # sleep ten seconds between retries
-retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
+Retryable.retryable(:sleep => 0) { }                     # don't pause at all between retries
+Retryable.retryable(:sleep => 10) { }                    # sleep ten seconds between retries
+Retryable.retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
 ```
 
 Matching error messages
@@ -73,7 +73,7 @@ Matching error messages
 You can also retry based on the exception message:
 
 ```
-retryable(:matching => /IO timeout/) do |retries, exception|
+Retryable.retryable(:matching => /IO timeout/) do |retries, exception|
   raise "yo, IO timeout!" if retries == 0
 end
 ```
@@ -83,7 +83,7 @@ Block Parameters
 Your block is called with two optional parameters: the number of tries until now, and the most recent exception.
 
 ```
-retryable do |retries, exception|
+Retryable.retryable do |retries, exception|
   puts "try #{retries} failed with exception: #{exception}" if retries > 0
   pick_up_soap
 end
@@ -98,7 +98,7 @@ exception_cb = Proc.new do |exception|
   ExceptionNotifier.notify_exception(exception, :data => {:message => "it failed"})
 end
 
-retryable(:exception_cb => exception_cb) do
+Retryable.retryable(:exception_cb => exception_cb) do
   # perform risky operation
 end
 ```
