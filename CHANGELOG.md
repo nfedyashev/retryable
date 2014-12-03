@@ -1,3 +1,7 @@
+## Retryable 2.0.0 ##
+
+*   Retryable can now be used without monkey patching Kernel module(use `Retryable.retryable` instead). Thanks @oppegard
+
 ## Retryable 1.3.6 ##
 
 *   Fixed warning: assigned but unused variable - tries. Thanks @amatsuda
