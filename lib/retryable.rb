@@ -1,8 +1,8 @@
 require 'retryable/version'
 require 'retryable/config'
 
-module Kernel
-  def retryable(options = {}, &block)
+module Retryable
+  def self.retryable(options = {}, &block)
     opts = {:tries => 2, :sleep => 1, :on => StandardError, :matching  => /.*/, :ensure => Proc.new {}, :exception_cb => Proc.new {}}
     check_for_invalid_options(options, opts)
     opts.merge!(options)
@@ -37,7 +37,7 @@ module Kernel
 
   private
 
-  def check_for_invalid_options(custom_options, default_options)
+  def self.check_for_invalid_options(custom_options, default_options)
     invalid_options = default_options.merge(custom_options).keys - default_options.keys
 
     raise ArgumentError.new("[Retryable] Invalid options: #{invalid_options.join(", ")}") unless invalid_options.empty?
