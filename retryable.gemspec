@@ -4,7 +4,7 @@ require File.expand_path('../lib/retryable/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.add_development_dependency 'bundler', '~> 1.0'
   gem.authors = ["Nikita Fedyashev", "Carlo Zottmann", "Chu Yeow"]
-  gem.description = %q{Kernel#retryable, allow for retrying of code blocks.}
+  gem.description = %q{Retryable#retryable, allow for retrying of code blocks.}
   gem.email = %q{loci.master@gmail.com}
   gem.files = %w(CHANGELOG.md LICENSE.md README.md Rakefile retryable.gemspec)
   gem.files += Dir.glob("lib/**/*.rb")
