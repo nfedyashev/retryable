@@ -1,3 +1,7 @@
+## Retryable 2.0.1 ##
+
+*   Retryable can now be configured globally via Retryable.configure block.
+
 ## Retryable 2.0.0 ##
 
 *   Retryable can now be used without monkey patching Kernel module(use `Retryable.retryable` instead). Thanks @oppegard
