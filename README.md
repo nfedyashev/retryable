@@ -58,6 +58,20 @@ end
 
     :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }, :exception_cb => Proc.new { }
 
+Retryable also could be configured globally to change those defaults:
+
+```
+Retryable.configure do |config|
+  config.ensure       = Proc.new {}
+  config.exception_cb = Proc.new {}
+  config.matching     = /.*/
+  config.on           = StandardError
+  config.sleep        = 1
+  config.tries        = 2
+end
+```
+
+
 Sleeping
 --------
 By default Retryable waits for one second between retries. You can change this and even provide your own exponential backoff scheme.
