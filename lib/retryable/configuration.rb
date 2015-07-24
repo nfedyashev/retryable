@@ -7,7 +7,8 @@ module Retryable
       :matching,
       :on,
       :sleep,
-      :tries
+      :tries,
+      :not
     ].freeze
 
     attr_accessor :ensure
@@ -16,6 +17,7 @@ module Retryable
     attr_accessor :on
     attr_accessor :sleep
     attr_accessor :tries
+    attr_accessor :not
 
     attr_accessor :enabled
 
@@ -28,6 +30,7 @@ module Retryable
       @on           = StandardError
       @sleep        = 1
       @tries        = 2
+      @not          = []
 
       @enabled     = true
     end
