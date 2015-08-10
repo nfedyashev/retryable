@@ -125,7 +125,7 @@ RSpec.describe 'Retryable.retryable' do
   
   it 'gives precidence for :not over :on' do
     expect do
-      count_retryable(:sleep => 0, :tries => 3, :on => StandardError, :not => IndexError ) { |tries| raise tries >= 1 ? IndexError : StandardError}
+      count_retryable(:sleep => 0, :tries => 3, :on => StandardError, :not => IndexError ) { |tries| raise tries >= 1 ? IndexError : StandardError }
     end.to raise_error IndexError
     expect(@try_count).to eq(2)
   end
