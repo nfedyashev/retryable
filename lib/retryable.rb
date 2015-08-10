@@ -17,7 +17,7 @@ module Retryable
     #     config.on           = StandardError
     #     config.sleep        = 1
     #     config.tries        = 2
-    #     config.not          = RuntimeError
+    #     config.not          = []
     #   end
     def configure
       yield(configuration)
