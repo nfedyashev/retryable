@@ -9,7 +9,7 @@ Description
 Runs a code block, and retries it when an exception occurs. It's great when
 working with flakey webservices (for example).
 
-It's configured using four optional parameters `:tries`, `:on`, `:sleep`, `:matching`, `:ensure`, `:exception_cb` and
+It's configured using five optional parameters `:tries`, `:on`, `:sleep`, `:matching`, `:ensure`, `:exception_cb`, `:not` and
 runs the passed block. Should an exception occur, it'll retry for (n-1) times.
 
 Should the number of retries be reached without success, the last exception
@@ -56,7 +56,7 @@ end
 
 ## Defaults
 
-    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }, :exception_cb => Proc.new { }
+    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }, :exception_cb => Proc.new { }, :not => []
 
 Retryable also could be configured globally to change those defaults:
 
@@ -68,6 +68,7 @@ Retryable.configure do |config|
   config.on           = StandardError
   config.sleep        = 1
   config.tries        = 2
+  config.not          = []
 end
 ```
 
@@ -128,6 +129,20 @@ Retryable.disable
 
 Retryable.enabled?
 => false
+```
+
+Specify exceptions where a retry should NOT be performed
+--------
+No more tries will be made if an exception listed in `:not` is raised.
+Takes precedence over `:on`.
+
+```
+class MyError < StandardError; end
+
+Retryable.retryable(:tries => 5, :on => [StandardError], :not => [MyError]) do
+  raise MyError "No retries!"
+end
+
 ```
 
 Supported Ruby Versions

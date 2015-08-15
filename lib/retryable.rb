@@ -17,6 +17,7 @@ module Retryable
     #     config.on           = StandardError
     #     config.sleep        = 1
     #     config.tries        = 2
+    #     config.not          = []
     #   end
     def configure
       yield(configuration)
@@ -47,7 +48,8 @@ module Retryable
         :on           => self.configuration.on,
         :matching     => self.configuration.matching,
         :ensure       => self.configuration.ensure,
-        :exception_cb => self.configuration.exception_cb
+        :exception_cb => self.configuration.exception_cb,
+        :not          => self.configuration.not
       }
 
       check_for_invalid_options(options, opts)
@@ -55,12 +57,16 @@ module Retryable
 
       return if opts[:tries] == 0
 
-      on_exception, tries = [ opts[:on] ].flatten, opts[:tries]
+      on_exception = [ opts[:on] ].flatten
+      not_exception = [ opts[:not] ].flatten
+      tries = opts[:tries]
       retries = 0
       retry_exception = nil
 
       begin
         return yield retries, retry_exception
+      rescue *not_exception
+        raise
       rescue *on_exception => exception
         raise unless configuration.enabled?
         raise unless exception.message =~ opts[:matching]
@@ -69,6 +75,8 @@ module Retryable
         # Interrupt Exception could be raised while sleeping
         begin
           Kernel.sleep opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
+        rescue *not_exception
+          raise
         rescue *on_exception
         end
 
@@ -90,4 +98,3 @@ module Retryable
     end
   end
 end
-
