@@ -115,14 +115,14 @@ RSpec.describe 'Retryable.retryable' do
 
     expect(@raised).to eq("this is fun!")
   end
-  
+
   it 'does not retry on :not exception' do
     expect do
       count_retryable(:not => RuntimeError ) { |tries, ex| raise RuntimeError if tries < 1 }
     end.to raise_error RuntimeError
     expect(@try_count).to eq(1)
   end
-  
+
   it 'gives precidence for :not over :on' do
     expect do
       count_retryable(:sleep => 0, :tries => 3, :on => StandardError, :not => IndexError ) { |tries, ex| raise tries >= 1 ? IndexError : StandardError }
