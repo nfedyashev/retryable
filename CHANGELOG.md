@@ -1,3 +1,8 @@
+## Retryable 2.0.2 ##
+
+*   :not configuration option has been added for specifying exceptions
+    when a retry should not be performed. Thanks @drunkel
+
 ## Retryable 2.0.1 ##
 
 *   Retryable can now be configured globally via Retryable.configure block.
