@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.files += Dir.glob("spec/**/*")
   gem.homepage = %q{http://github.com/nfedyashev/retryable}
   gem.name = 'retryable'
+  gem.license = 'MIT'
   gem.require_paths = ["lib"]
   gem.required_rubygems_version = '>= 1.3.6'
   gem.summary = gem.description
