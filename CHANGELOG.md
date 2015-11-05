@@ -1,3 +1,7 @@
+## Retryable 2.0.3 ##
+
+*   gemspec contains explicit licence option from now on(MIT)
+
 ## Retryable 2.0.2 ##
 
 *   :not configuration option has been added for specifying exceptions
