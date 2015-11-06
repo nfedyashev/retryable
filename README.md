@@ -9,7 +9,7 @@ Description
 Runs a code block, and retries it when an exception occurs. It's great when
 working with flakey webservices (for example).
 
-It's configured using five optional parameters `:tries`, `:on`, `:sleep`, `:matching`, `:ensure`, `:exception_cb`, `:not` and
+It's configured using several optional parameters `:tries`, `:on`, `:sleep`, `:matching`, `:ensure`, `:exception_cb`, `:not`, `:sleep_method` and
 runs the passed block. Should an exception occur, it'll retry for (n-1) times.
 
 Should the number of retries be reached without success, the last exception
@@ -26,6 +26,13 @@ require "open-uri"
 
 Retryable.retryable(:tries => 3, :on => OpenURI::HTTPError) do
   xml = open("http://example.com/test.xml").read
+end
+```
+
+Try the block forever.
+```ruby
+Retryable.retryable(:tries => :infinite) do
+  # some code
 end
 ```
 
@@ -56,7 +63,7 @@ end
 
 ## Defaults
 
-    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }, :exception_cb => Proc.new { }, :not => []
+    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }, :exception_cb => Proc.new { }, :not => [], :sleep_method => lambda { |n| Kernel.sleep(n) }
 
 Retryable also could be configured globally to change those defaults:
 
@@ -69,6 +76,7 @@ Retryable.configure do |config|
   config.sleep        = 1
   config.tries        = 2
   config.not          = []
+  config.sleep_method = Celluloid.method(:sleep)
 end
 ```
 
@@ -143,6 +151,17 @@ Retryable.retryable(:tries => 5, :on => [StandardError], :not => [MyError]) do
   raise MyError "No retries!"
 end
 
+```
+
+Specify the sleep method to use
+--------
+This can be very useful when you are working with [Celluloid](https://github.com/celluloid/celluloid)
+which implements its own version of the method sleep.
+
+```
+Retryable.retryable(:sleep_method => Celluloid.method(:sleep) do
+  retrieve_url
+end
 ```
 
 Supported Ruby Versions

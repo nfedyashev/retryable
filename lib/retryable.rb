@@ -49,7 +49,8 @@ module Retryable
         :matching     => self.configuration.matching,
         :ensure       => self.configuration.ensure,
         :exception_cb => self.configuration.exception_cb,
-        :not          => self.configuration.not
+        :not          => self.configuration.not,
+        :sleep_method => self.configuration.sleep_method
       }
 
       check_for_invalid_options(options, opts)
@@ -70,11 +71,12 @@ module Retryable
       rescue *on_exception => exception
         raise unless configuration.enabled?
         raise unless exception.message =~ opts[:matching]
-        raise if retries+1 >= tries
+        raise if tries != :infinite && retries+1 >= tries
 
         # Interrupt Exception could be raised while sleeping
         begin
-          Kernel.sleep opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
+          seconds = opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
+          opts[:sleep_method].call(seconds)
         rescue *not_exception
           raise
         rescue *on_exception

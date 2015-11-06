@@ -8,7 +8,8 @@ module Retryable
       :on,
       :sleep,
       :tries,
-      :not
+      :not,
+      :sleep_method
     ].freeze
 
     attr_accessor :ensure
@@ -18,6 +19,7 @@ module Retryable
     attr_accessor :sleep
     attr_accessor :tries
     attr_accessor :not
+    attr_accessor :sleep_method
 
     attr_accessor :enabled
 
@@ -31,7 +33,7 @@ module Retryable
       @sleep        = 1
       @tries        = 2
       @not          = []
-
+      @sleep_method = lambda do |seconds| Kernel.sleep(seconds) end
       @enabled     = true
     end
 
