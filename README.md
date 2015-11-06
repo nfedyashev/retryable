@@ -2,6 +2,7 @@ retryable gem
 =====
 
 [![Build Status](https://travis-ci.org/nfedyashev/retryable.png?branch=master)](https://travis-ci.org/nfedyashev/retryable)
+[![Dependency Status](https://www.versioneye.com/ruby/retryable/badge.svg)](https://www.versioneye.com/ruby/retryable)
 
 Description
 --------
