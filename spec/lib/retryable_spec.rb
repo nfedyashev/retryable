@@ -67,6 +67,12 @@ RSpec.describe 'Retryable.retryable' do
     expect(@try_count).to eq(3)
   end
 
+  it 'retries forever' do
+    allow(Kernel).to receive(:sleep)
+    count_retryable(:tries => :infinite) { |tries, ex| raise StandardError if tries < 9 }
+    expect(@try_count).to eq(10)
+  end
+
   it 'retries on default exception' do
     expect(Kernel).to receive(:sleep).once.with(1)
 
@@ -78,6 +84,14 @@ RSpec.describe 'Retryable.retryable' do
     [1, 4, 16, 64].each { |i| expect(Kernel).to receive(:sleep).once.ordered.with(i) }
     expect do
       Retryable.retryable(:tries => 5, :sleep => lambda { |n| 4**n }) { raise RangeError }
+    end.to raise_error RangeError
+  end
+
+  it 'calls :sleep_method option' do
+    sleep_method = double
+    expect(sleep_method).to receive(:call).twice
+    expect do
+      Retryable.retryable(:tries => 3, :sleep_method => sleep_method) { |tries| raise RangeError if tries < 3}
     end.to raise_error RangeError
   end
 
