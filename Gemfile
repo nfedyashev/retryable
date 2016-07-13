@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem 'rake'
+gem 'rake', '~> 10.4'
 gem 'yard'
 
 group :test do
