@@ -1,28 +1,16 @@
-before_install:
-  - gem update bundler
-  - bundle --version
-  - gem update --system 2.1.11
-  - gem --version
 language: ruby
+sudo: false
 rvm:
   - 1.8
   - 1.9
   - 2.0
   - 2.1
   - 2.2
-  - 2.3
-  - rbx
+  - 2.3.1
+  - rbx-2
   - ruby-head
 matrix:
-  include:
-    - rvm: jruby-18mode
-      env: JRUBY_OPTS="$JRUBY_OPTS --debug"
-    - rvm: jruby-19mode
-      env: JRUBY_OPTS="$JRUBY_OPTS --debug"
-    - rvm: jruby-head
-      env: JRUBY_OPTS="$JRUBY_OPTS --debug"
   allow_failures:
-    - rvm: jruby-head
-    - rvm: rbx
+    - rvm: rbx-2
     - rvm: ruby-head
   fast_finish: true
