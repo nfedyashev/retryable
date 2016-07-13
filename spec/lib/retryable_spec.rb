@@ -67,10 +67,14 @@ RSpec.describe 'Retryable.retryable' do
     expect(@try_count).to eq(3)
   end
 
-  it 'retries forever' do
-    allow(Kernel).to receive(:sleep)
-    count_retryable(:tries => :infinite) { |tries, ex| raise StandardError if tries < 9 }
-    expect(@try_count).to eq(10)
+  it 'retries infinitely' do
+    expect do
+      Timeout::timeout(3) do
+        count_retryable(:tries => :infinite, :sleep => 0.1) { |tries, ex| raise StandardError }
+      end
+    end.to raise_error Timeout::Error
+
+    expect(@try_count).to be > 10
   end
 
   it 'retries on default exception' do
