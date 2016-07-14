@@ -3,6 +3,7 @@
 *   :infinite value is now available as :tries paramater.  Use it for retrying your blocks infinitely until it stops failing.
 *   :sleep_method parameter has been added. This can be very useful when you are working with Celluloid which implements its own version of the method sleep.
     Use `:sleep_method => Celluloid.method(:sleep)` in such cases.
+    Thanks @alexcastano
 
 ## Retryable 2.0.3 ##
 
