@@ -3,7 +3,6 @@ require File.expand_path('../lib/retryable/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.add_development_dependency 'bundler', '~> 1.0'
-  gem.add_development_dependency 'pry', '~> 0.10'
   gem.authors = ["Nikita Fedyashev", "Carlo Zottmann", "Chu Yeow"]
   gem.description = %q{Retryable#retryable, allow for retrying of code blocks.}
   gem.email = %q{nfedyashev@gmail.com}
