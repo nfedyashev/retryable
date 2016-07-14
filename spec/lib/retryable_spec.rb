@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'timeout'
 
 RSpec.describe 'Retryable.retryable' do
   before(:each) do
@@ -95,7 +96,7 @@ RSpec.describe 'Retryable.retryable' do
     sleep_method = double
     expect(sleep_method).to receive(:call).twice
     expect do
-      Retryable.retryable(:tries => 3, :sleep_method => sleep_method) { |tries| raise RangeError if tries < 3}
+      Retryable.retryable(:tries => 3, :sleep_method => sleep_method) { |tries, ex| raise RangeError if tries < 9}
     end.to raise_error RangeError
   end
 
