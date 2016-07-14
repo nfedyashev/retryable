@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../lib/retryable'
 require 'rspec'
+require 'pry'
 
 RSpec.configure do |config|
   config.disable_monkey_patching!
