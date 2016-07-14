@@ -160,7 +160,7 @@ This can be very useful when you are working with [Celluloid](https://github.com
 which implements its own version of the method sleep.
 
 ```
-Retryable.retryable(:sleep_method => Celluloid.method(:sleep) do
+Retryable.retryable(:sleep_method => Celluloid.method(:sleep)) do
   retrieve_url
 end
 ```
