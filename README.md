@@ -68,7 +68,7 @@ end
 
 Retryable also could be configured globally to change those defaults:
 
-```
+```ruby
 Retryable.configure do |config|
   config.ensure       = Proc.new {}
   config.exception_cb = Proc.new {}
@@ -86,7 +86,7 @@ Sleeping
 --------
 By default Retryable waits for one second between retries. You can change this and even provide your own exponential backoff scheme.
 
-```
+```ruby
 Retryable.retryable(:sleep => 0) { }                     # don't pause at all between retries
 Retryable.retryable(:sleep => 10) { }                    # sleep ten seconds between retries
 Retryable.retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
@@ -96,7 +96,7 @@ Matching error messages
 --------
 You can also retry based on the exception message:
 
-```
+```ruby
 Retryable.retryable(:matching => /IO timeout/) do |retries, exception|
   raise "yo, IO timeout!" if retries == 0
 end
@@ -106,7 +106,7 @@ Block Parameters
 --------
 Your block is called with two optional parameters: the number of tries until now, and the most recent exception.
 
-```
+```ruby
 Retryable.retryable do |retries, exception|
   puts "try #{retries} failed with exception: #{exception}" if retries > 0
   pick_up_soap
@@ -116,7 +116,7 @@ end
 Callback to run after an exception is rescued
 --------
 
-```
+```ruby
 exception_cb = Proc.new do |exception|
   # http://smartinez87.github.io/exception_notification
   ExceptionNotifier.notify_exception(exception, :data => {:message => "it failed"})
@@ -130,7 +130,7 @@ end
 You can temporary disable retryable blocks
 --------
 
-```
+```ruby
 Retryable.enabled?
 => true
 
@@ -145,7 +145,7 @@ Specify exceptions where a retry should NOT be performed
 No more tries will be made if an exception listed in `:not` is raised.
 Takes precedence over `:on`.
 
-```
+```ruby
 class MyError < StandardError; end
 
 Retryable.retryable(:tries => 5, :on => [StandardError], :not => [MyError]) do
@@ -159,7 +159,7 @@ Specify the sleep method to use
 This can be very useful when you are working with [Celluloid](https://github.com/celluloid/celluloid)
 which implements its own version of the method sleep.
 
-```
+```ruby
 Retryable.retryable(:sleep_method => Celluloid.method(:sleep)) do
   retrieve_url
 end
