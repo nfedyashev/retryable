@@ -1,7 +1,7 @@
 module Retryable
   # Used to set up and modify settings for the retryable.
   class Configuration
-    OPTIONS = [
+    VALID_OPTION_KEYS = [
       :ensure,
       :exception_cb,
       :matching,
@@ -12,34 +12,26 @@ module Retryable
       :sleep_method
     ].freeze
 
-    attr_accessor :ensure
-    attr_accessor :exception_cb
-    attr_accessor :matching
-    attr_accessor :on
-    attr_accessor :sleep
-    attr_accessor :tries
-    attr_accessor :not
-    attr_accessor :sleep_method
+    attr_accessor(*VALID_OPTION_KEYS)
 
     attr_accessor :enabled
 
-    alias_method :enabled?, :enabled
-
     def initialize
-      @ensure       = Proc.new {}
-      @exception_cb = Proc.new {}
+      @ensure       = proc {}
+      @exception_cb = proc {}
       @matching     = /.*/
       @on           = StandardError
       @sleep        = 1
       @tries        = 2
       @not          = []
-      @sleep_method = lambda do |seconds| Kernel.sleep(seconds) end
-      @enabled     = true
+      @sleep_method = lambda { |seconds| Kernel.sleep(seconds) }
+      @enabled = true
     end
 
     def enable
       @enabled = true
     end
+    alias enabled? enabled
 
     def disable
       @enabled = false
@@ -54,9 +46,8 @@ module Retryable
 
     # Returns a hash of all configurable options
     def to_hash
-      OPTIONS.inject({}) do |hash, option|
-        hash[option.to_sym] = self.send(option)
-        hash
+      VALID_OPTION_KEYS.each_with_object({}) do |key, memo|
+        memo[key] = instance_variable_get("@#{key}")
       end
     end
 
