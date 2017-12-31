@@ -41,25 +41,16 @@ module Retryable
       configuration.disable
     end
 
-    def retryable(options = {}, &block)
-      opts = {
-        :tries        => self.configuration.tries,
-        :sleep        => self.configuration.sleep,
-        :on           => self.configuration.on,
-        :matching     => self.configuration.matching,
-        :ensure       => self.configuration.ensure,
-        :exception_cb => self.configuration.exception_cb,
-        :not          => self.configuration.not,
-        :sleep_method => self.configuration.sleep_method
-      }
+    def retryable(options = {})
+      opts = configuration.to_hash
 
       check_for_invalid_options(options, opts)
       opts.merge!(options)
 
       return if opts[:tries] == 0
 
-      on_exception = [ opts[:on] ].flatten
-      not_exception = [ opts[:not] ].flatten
+      on_exception = [opts[:on]].flatten
+      not_exception = [opts[:not]].flatten
       tries = opts[:tries]
       retries = 0
       retry_exception = nil
@@ -71,7 +62,7 @@ module Retryable
       rescue *on_exception => exception
         raise unless configuration.enabled?
         raise unless exception.message =~ opts[:matching]
-        raise if tries != :infinite && retries+1 >= tries
+        raise if tries != :infinite && retries + 1 >= tries
 
         # Interrupt Exception could be raised while sleeping
         begin
@@ -96,7 +87,7 @@ module Retryable
     def check_for_invalid_options(custom_options, default_options)
       invalid_options = default_options.merge(custom_options).keys - default_options.keys
       return if invalid_options.empty?
-      raise ArgumentError.new("[Retryable] Invalid options: #{invalid_options.join(", ")}")
+      raise ArgumentError, "[Retryable] Invalid options: #{invalid_options.join(', ')}"
     end
   end
 end

@@ -1,15 +1,15 @@
 module Retryable
   # Used to set up and modify settings for the retryable.
   class Configuration
-    VALID_OPTION_KEYS = [
-      :ensure,
-      :exception_cb,
-      :matching,
-      :on,
-      :sleep,
-      :tries,
-      :not,
-      :sleep_method
+    VALID_OPTION_KEYS = %i[
+      ensure
+      exception_cb
+      matching
+      on
+      sleep
+      tries
+      not
+      sleep_method
     ].freeze
 
     attr_accessor(*VALID_OPTION_KEYS)
@@ -24,7 +24,7 @@ module Retryable
       @sleep        = 1
       @tries        = 2
       @not          = []
-      @sleep_method = lambda { |seconds| Kernel.sleep(seconds) }
+      @sleep_method = ->(seconds) { Kernel.sleep(seconds) }
       @enabled = true
     end
 

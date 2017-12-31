@@ -2,22 +2,22 @@ require 'spec_helper'
 
 RSpec.describe Retryable do
   it 'is enabled by default' do
-    expect(Retryable).to be_enabled
+    expect(described_class).to be_enabled
   end
 
   it 'could be disabled' do
-    Retryable.disable
-    expect(Retryable).not_to be_enabled
+    described_class.disable
+    expect(described_class).not_to be_enabled
   end
 
   context 'when disabled' do
     before do
-      Retryable.disable
+      described_class.disable
     end
 
     it 'could be re-enabled' do
-      Retryable.enable
-      expect(Retryable).to be_enabled
+      described_class.enable
+      expect(described_class).to be_enabled
     end
   end
 
@@ -25,11 +25,11 @@ RSpec.describe Retryable do
     it 'passes retry count and exception on retry' do
       expect(Kernel).to receive(:sleep).once.with(3)
 
-      Retryable.configure do |config|
+      described_class.configure do |config|
         config.sleep = 3
       end
 
-      count_retryable(:tries => 2) do |tries, ex|
+      count_retryable(tries: 2) do |tries, ex|
         expect(ex.class).to eq(StandardError) if tries > 0
         raise StandardError if tries < 1
       end

@@ -5,13 +5,13 @@ require 'pry'
 RSpec.configure do |config|
   config.disable_monkey_patching!
 
-  config.before(:each) do
+  config.before do
     reset_config
   end
 
   def count_retryable(*opts)
     @try_count = 0
-    return Retryable.retryable(*opts) do |*args|
+    Retryable.retryable(*opts) do |*args|
       @try_count += 1
       yield *args
     end
