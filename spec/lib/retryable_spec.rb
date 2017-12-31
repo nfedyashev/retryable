@@ -50,7 +50,9 @@ RSpec.describe 'Retryable.retryable' do
 
   it 'makes another try if exception is covered by :on' do
     allow(Kernel).to receive(:sleep)
-    count_retryable(:on => [StandardError, ArgumentError, RuntimeError] ) { |tries, ex| raise ArgumentError if tries < 1 }
+    count_retryable(:on => [StandardError, ArgumentError, RuntimeError] ) do |tries, ex|
+      raise ArgumentError if tries < 1
+    end
     expect(@try_count).to eq(2)
   end
 
@@ -129,7 +131,9 @@ RSpec.describe 'Retryable.retryable' do
 
   it 'accepts a callback to run after an exception is rescued' do
     expect do
-      Retryable.retryable(:sleep => 0, :exception_cb => Proc.new {|e| @raised = e.to_s }) {|tries, ex| raise StandardError.new("this is fun!") if tries < 1 }
+      Retryable.retryable(:sleep => 0, :exception_cb => Proc.new {|e| @raised = e.to_s }) do |tries, ex|
+        raise StandardError.new("this is fun!") if tries < 1
+      end
     end.not_to raise_error
 
     expect(@raised).to eq("this is fun!")
@@ -144,7 +148,9 @@ RSpec.describe 'Retryable.retryable' do
 
   it 'gives precidence for :not over :on' do
     expect do
-      count_retryable(:sleep => 0, :tries => 3, :on => StandardError, :not => IndexError ) { |tries, ex| raise tries >= 1 ? IndexError : StandardError }
+      count_retryable(:sleep => 0, :tries => 3, :on => StandardError, :not => IndexError ) do |tries, ex|
+        raise tries >= 1 ? IndexError : StandardError
+      end
     end.to raise_error IndexError
     expect(@try_count).to eq(2)
   end

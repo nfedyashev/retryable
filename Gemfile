@@ -1,5 +1,10 @@
 source "http://rubygems.org"
 
+group :development do
+  gem 'rubocop', '~> 0.52.1'
+  gem 'rubocop-rspec', '~> 1.21'
+end
+
 gem 'rake', '~> 10.4'
 gem 'pry', '= 0.9.12.6'
 gem 'yard'
