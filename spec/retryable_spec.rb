@@ -10,7 +10,7 @@ RSpec.describe Retryable do
 
     it 'catch StandardError only by default' do
       expect do
-        counter(tries: 2).around { |tries| raise Exception if tries < 1 }
+        counter(tries: 2) { |tries| raise Exception if tries < 1 }
       end.to raise_error Exception
       expect(counter.count).to eq(1)
     end
@@ -18,7 +18,7 @@ RSpec.describe Retryable do
     it 'retries on default exception' do
       expect(Kernel).to receive(:sleep).once.with(1)
 
-      counter(tries: 2).around { |tries| raise StandardError if tries < 1 }
+      counter(tries: 2) { |tries| raise StandardError if tries < 1 }
       expect(counter.count).to eq(2)
     end
 
@@ -26,7 +26,7 @@ RSpec.describe Retryable do
       described_class.disable
 
       expect do
-        counter(tries: 2).around { raise }
+        counter(tries: 2) { raise }
       end.to raise_error RuntimeError
       expect(counter.count).to eq(1)
     end
@@ -42,7 +42,7 @@ RSpec.describe Retryable do
     it 'passes retry count and exception on retry' do
       expect(Kernel).to receive(:sleep).once.with(1)
 
-      counter(tries: 2).around do |tries, ex|
+      counter(tries: 2) do |tries, ex|
         expect(ex.class).to eq(StandardError) if tries > 0
         raise StandardError if tries < 1
       end
@@ -51,7 +51,7 @@ RSpec.describe Retryable do
 
     it 'makes another try if exception is covered by :on' do
       allow(Kernel).to receive(:sleep)
-      counter(on: [StandardError, ArgumentError, RuntimeError]).around do |tries|
+      counter(on: [StandardError, ArgumentError, RuntimeError]) do |tries|
         raise ArgumentError if tries < 1
       end
       expect(counter.count).to eq(2)
@@ -60,21 +60,21 @@ RSpec.describe Retryable do
     it 'does not try on unexpected exception' do
       allow(Kernel).to receive(:sleep)
       expect do
-        counter(on: RuntimeError).around { |tries| raise StandardError if tries < 1 }
+        counter(on: RuntimeError) { |tries| raise StandardError if tries < 1 }
       end.to raise_error StandardError
       expect(counter.count).to eq(1)
     end
 
     it 'retries three times' do
       allow(Kernel).to receive(:sleep)
-      counter(tries: 3).around { |tries| raise StandardError if tries < 2 }
+      counter(tries: 3) { |tries| raise StandardError if tries < 2 }
       expect(counter.count).to eq(3)
     end
 
     it 'retries infinitely' do
       expect do
         Timeout.timeout(3) do
-          counter(tries: :infinite, sleep: 0.1).around { raise StandardError }
+          counter(tries: :infinite, sleep: 0.1) { raise StandardError }
         end
       end.to raise_error Timeout::Error
 
@@ -98,21 +98,21 @@ RSpec.describe Retryable do
 
     it 'does not retry any exception if :on is empty list' do
       expect do
-        counter(on: []).around { raise }
+        counter(on: []) { raise }
       end.to raise_error RuntimeError
       expect(counter.count).to eq(1)
     end
 
     it 'catches an exception that matches the regex' do
       expect(Kernel).to receive(:sleep).once.with(1)
-      counter(matching: /IO timeout/).around { |c, _e| raise 'yo, IO timeout!' if c == 0 }
+      counter(matching: /IO timeout/) { |c, _e| raise 'yo, IO timeout!' if c == 0 }
       expect(counter.count).to eq(2)
     end
 
     it 'does not catch an exception that does not match the regex' do
       expect(Kernel).not_to receive(:sleep)
       expect do
-        counter(matching: /TimeError/).around { raise 'yo, IO timeout!' }
+        counter(matching: /TimeError/) { raise 'yo, IO timeout!' }
       end.to raise_error RuntimeError
       expect(counter.count).to eq(1)
     end
@@ -135,14 +135,14 @@ RSpec.describe Retryable do
 
     it 'does not retry on :not exception' do
       expect do
-        counter(not: RuntimeError).around { |tries| raise RuntimeError if tries < 1 }
+        counter(not: RuntimeError) { |tries| raise RuntimeError if tries < 1 }
       end.to raise_error RuntimeError
       expect(counter.count).to eq(1)
     end
 
     it 'gives precidence for :not over :on' do
       expect do
-        counter(sleep: 0, tries: 3, on: StandardError, not: IndexError).around do |tries|
+        counter(sleep: 0, tries: 3, on: StandardError, not: IndexError) do |tries|
           raise tries >= 1 ? IndexError : StandardError
         end
       end.to raise_error IndexError

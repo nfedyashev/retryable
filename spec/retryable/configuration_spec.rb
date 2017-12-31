@@ -29,7 +29,7 @@ RSpec.describe Retryable do
         config.sleep = 3
       end
 
-      counter(tries: 2).around do |tries, ex|
+      counter(tries: 2) do |tries, ex|
         expect(ex.class).to eq(StandardError) if tries > 0
         raise StandardError if tries < 1
       end

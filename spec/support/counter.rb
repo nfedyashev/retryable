@@ -1,5 +1,5 @@
 module Counter
-  class Counter
+  class Generator
     attr_reader :count
 
     def initialize(options)
@@ -9,13 +9,21 @@ module Counter
 
     def around
       Retryable.retryable(@options) do |*arguments|
-        @count += 1
+        increment
         yield(*arguments)
       end
     end
+
+    private
+
+    def increment
+      @count += 1
+    end
   end
 
-  def counter(options = {})
-    @counter ||= Counter.new(options)
+  def counter(options = {}, &block)
+    @counter ||= Generator.new(options)
+    @counter.around(&block) if block_given?
+    @counter
   end
 end
