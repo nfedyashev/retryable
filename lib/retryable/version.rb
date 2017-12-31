@@ -1,15 +1,37 @@
 module Retryable
   module Version
-    MAJOR = 2
-    MINOR = 0
-    PATCH = 4
-
     module_function
 
-    def to_a
-      [MAJOR, MINOR, PATCH].compact
+    # @return [Integer]
+    def major
+      2
     end
 
+    # @return [Integer]
+    def minor
+      0
+    end
+
+    # @return [Integer]
+    def patch
+      4
+    end
+
+    # @return [Hash]
+    def to_h
+      {
+        major: major,
+        minor: minor,
+        patch: patch
+      }
+    end
+
+    # @return [Hash]
+    def to_a
+      [major, minor, patch].compact
+    end
+
+    # @return [String]
     def to_s
       to_a.join('.')
     end
