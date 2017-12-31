@@ -7,3 +7,5 @@ Gemfile.lock
 
 # rubinius byte code files
 *.rbc
+
+/coverage/
