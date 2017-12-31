@@ -1,16 +1,17 @@
 module Retryable
-  class Version
-    MAJOR = 2 unless defined? Retryable::Version::MAJOR
-    MINOR = 0 unless defined? Retryable::Version::MINOR
-    PATCH = 4 unless defined? Retryable::Version::PATCH
+  module Version
+    MAJOR = 2
+    MINOR = 0
+    PATCH = 4
 
-    class << self
+    module_function
 
-      # @return [String]
-      def to_s
-        [MAJOR, MINOR, PATCH].compact.join('.')
-      end
+    def to_a
+      [MAJOR, MINOR, PATCH].compact
+    end
 
+    def to_s
+      to_a.join('.')
     end
   end
 end
