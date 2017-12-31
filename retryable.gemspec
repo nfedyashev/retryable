@@ -1,4 +1,3 @@
-
 require File.expand_path('../lib/retryable/version', __FILE__)
 
 Gem::Specification.new do |gem|

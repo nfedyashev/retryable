@@ -1,8 +1,8 @@
 source 'http://rubygems.org'
 
 group :development do
-  gem 'rubocop', '~> 0.52.1'
-  gem 'rubocop-rspec', '~> 1.21'
+  gem 'rubocop'
+  gem 'rubocop-rspec'
 end
 
 gem 'pry', '= 0.9.12.6'

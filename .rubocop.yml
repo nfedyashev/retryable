@@ -4,3 +4,7 @@ require: rubocop-rspec
 
 Metrics/LineLength:
   Max: 120
+
+Style/SymbolArray:
+  Enabled: true
+  EnforcedStyle: brackets
