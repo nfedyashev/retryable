@@ -1,7 +1,6 @@
 language: ruby
 sudo: false
 rvm:
-  - 1.8
   - 1.9
   - 2.0
   - 2.1
