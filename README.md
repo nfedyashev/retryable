@@ -1,8 +1,12 @@
-retryable gem
-=====
+# Retryable
 
+[![Gem Version](https://badge.fury.io/rb/retryable.svg)](https://badge.fury.io/rb/retryable)
 [![Build Status](https://travis-ci.org/nfedyashev/retryable.png?branch=master)](https://travis-ci.org/nfedyashev/retryable)
 [![Dependency Status](https://www.versioneye.com/ruby/retryable/badge.svg)](https://www.versioneye.com/ruby/retryable)
+[![Code Climate](https://codeclimate.com/github/nfedyashev/retryable/badges/gpa.svg)](https://codeclimate.com/github/nfedyashev/retryable)
+[![Test Coverage](https://codeclimate.com/github/nfedyashev/retryable/badges/coverage.svg)](https://codeclimate.com/github/nfedyashev/retryable/coverage)
+
+[![Inline docs](http://inch-ci.org/github/nfedyashev/retryable.svg?branch=master)](http://inch-ci.org/github/nfedyashev/retryable)
 
 Description
 --------
