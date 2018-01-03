@@ -29,9 +29,5 @@ before_install:
 
 bundler_args: --jobs 1 --retry 3 --without development
 
-# after_success:
-#   - bundle exec codeclimate-test-reporter
-
-# addons:
-#   code_climate:
-#     repo_token: <Get from Code Climate>
+after_success:
+  - bundle exec codeclimate-test-reporter
