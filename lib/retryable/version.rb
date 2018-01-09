@@ -5,7 +5,7 @@ module Retryable
 
     # @return [Integer]
     def major
-      2
+      3
     end
 
     # @return [Integer]
@@ -15,7 +15,7 @@ module Retryable
 
     # @return [Integer]
     def patch
-      4
+      0
     end
 
     # @return [Hash]

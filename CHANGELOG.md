@@ -1,8 +1,17 @@
+## Retryable 3.0.0 ##
+NOTE: this version is backwards compatible with 2.0.4 version unless you're running it against Ruby 1.8 version.
+
+*   retryable can now also be configured via stored contexts.
+*   Ruby 1.8 support has been dropped.
+    
+    Thanks @chubchenko for refactoring and various improvements.
+
 ## Retryable 2.0.4 ##
 
 *   :infinite value is now available as :tries paramater.  Use it for retrying your blocks infinitely until it stops failing.
 *   :sleep_method parameter has been added. This can be very useful when you are working with Celluloid which implements its own version of the method sleep.
     Use `:sleep_method: Celluloid.method(:sleep)` in such cases.
+    
     Thanks @alexcastano
 
 ## Retryable 2.0.3 ##
