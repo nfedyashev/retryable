@@ -3,7 +3,7 @@ inherit_from: .rubocop_todo.yml
 require: rubocop-rspec
 
 Metrics/LineLength:
-  Max: 120
+  Max: 144
 
 Style/SymbolArray:
   Enabled: true

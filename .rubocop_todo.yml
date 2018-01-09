@@ -38,6 +38,7 @@ Metrics/PerceivedComplexity:
 RSpec/ExampleLength:
   Exclude:
     - 'spec/retryable/configuration_spec.rb'
+    - 'spec/retryable_with_context_spec.rb'
     - 'spec/retryable_spec.rb'
 
 # Offense count: 1
