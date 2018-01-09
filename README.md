@@ -91,7 +91,7 @@ end
     exception_cb: proc { },
     not: [],
     sleep_method: lambda { |n| Kernel.sleep(n) },
-    contexts = {}
+    contexts: {}
 
 Retryable also could be configured globally to change those defaults:
 
