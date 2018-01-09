@@ -44,14 +44,14 @@ Open an URL, retry up to two times when an `OpenURI::HTTPError` occurs.
 ``` ruby
 require "open-uri"
 
-Retryable.retryable(:tries => 3, :on => OpenURI::HTTPError) do
+Retryable.retryable(tries: 3, on: OpenURI::HTTPError) do
   xml = open("http://example.com/test.xml").read
 end
 ```
 
 Try the block forever.
 ```ruby
-Retryable.retryable(:tries => :infinite) do
+Retryable.retryable(tries: :infinite) do
   # code here
 end
 ```
@@ -60,7 +60,7 @@ Do something, retry up to four times for either `ArgumentError` or
 `TimeoutError` exceptions.
 
 ``` ruby
-Retryable.retryable(:tries => 5, :on => [ArgumentError, TimeoutError]) do
+Retryable.retryable(tries: 5, on: [ArgumentError, TimeoutError]) do
   # code here
 end
 ```
@@ -76,22 +76,22 @@ ensure_cb = proc do |retries|
   f.close
 end
 
-Retryable.retryable(:ensure => ensure_cb) do
+Retryable.retryable(ensure: ensure_cb) do
   # process file
 end
 ```
 
 ## Defaults
 
-    :tries => 2,
-    :on => StandardError,
-    :sleep => 1,
-    :matching  => /.*/,
-    :ensure => proc { },
-    :exception_cb => proc { },
-    :not => [],
-    :sleep_method => lambda { |n| Kernel.sleep(n) },
-    :contexts = {}
+    tries: 2,
+    on: StandardError,
+    sleep: 1,
+    matching : /.*/,
+    ensure: proc { },
+    exception_cb: proc { },
+    not: [],
+    sleep_method: lambda { |n| Kernel.sleep(n) },
+    contexts = {}
 
 Retryable also could be configured globally to change those defaults:
 
@@ -115,9 +115,9 @@ Sleeping
 By default Retryable waits for one second between retries. You can change this and even provide your own exponential backoff scheme.
 
 ```ruby
-Retryable.retryable(:sleep => 0) { }                     # don't pause at all between retries
-Retryable.retryable(:sleep => 10) { }                    # sleep ten seconds between retries
-Retryable.retryable(:sleep => lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
+Retryable.retryable(sleep: 0) { }                     # don't pause at all between retries
+Retryable.retryable(sleep: 10) { }                    # sleep ten seconds between retries
+Retryable.retryable(sleep: lambda { |n| 4**n }) { }   # sleep 1, 4, 16, etc. each try
 ```
 
 Matching error messages
@@ -125,7 +125,7 @@ Matching error messages
 You can also retry based on the exception message:
 
 ```ruby
-Retryable.retryable(:matching => /IO timeout/) do |retries, exception|
+Retryable.retryable(matching: /IO timeout/) do |retries, exception|
   raise "oops IO timeout!" if retries == 0
 end
 ```
@@ -147,10 +147,10 @@ Callback to run after an exception is rescued
 ```ruby
 exception_cb = proc do |exception|
   # http://smartinez87.github.io/exception_notification
-  ExceptionNotifier.notify_exception(exception, :data => {:message => "it failed"})
+  ExceptionNotifier.notify_exception(exception, data: {message: "it failed"})
 end
 
-Retryable.retryable(:exception_cb => exception_cb) do
+Retryable.retryable(exception_cb: exception_cb) do
   # code here
 end
 ```
@@ -163,9 +163,9 @@ Contexts allow you to extract common `Retryable.retryable` calling options for r
 ```ruby
 Retryable.configure do |config|
   config.contexts[:faulty_service] = {
-    :on => [FaultyServiceTimeoutError],
-    :sleep => 10,
-    :tries => 5
+    :on: [FaultyServiceTimeoutError],
+    :sleep: 10,
+    :tries: 5
   }
 end
 
@@ -206,7 +206,7 @@ Takes precedence over `:on`.
 ```ruby
 class MyError < StandardError; end
 
-Retryable.retryable(:tries => 5, :on => [StandardError], :not => [MyError]) do
+Retryable.retryable(tries: 5, on: [StandardError], not: [MyError]) do
   raise MyError "No retries!"
 end
 
@@ -218,7 +218,7 @@ This can be very useful when you are working with [Celluloid](https://github.com
 which implements its own version of the method sleep.
 
 ```ruby
-Retryable.retryable(:sleep_method => Celluloid.method(:sleep)) do
+Retryable.retryable(sleep_method: Celluloid.method(:sleep)) do
   # code here
 end
 ```
