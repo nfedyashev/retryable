@@ -20,6 +20,21 @@ runs the passed block. Should an exception occur, it'll retry for (n-1) times.
 Should the number of retries be reached without success, the last exception
 will be raised.
 
+Installation
+-------
+
+Install the gem:
+
+``` bash
+$ gem install retryable
+```
+
+Add it to your Gemfile:
+
+``` ruby
+gem 'retryable'
+```
+
 
 Examples
 --------
@@ -37,16 +52,16 @@ end
 Try the block forever.
 ```ruby
 Retryable.retryable(:tries => :infinite) do
-  # some code
+  # code here
 end
 ```
 
-Do _something_, retry up to four times for either `ArgumentError` or
+Do something, retry up to four times for either `ArgumentError` or
 `TimeoutError` exceptions.
 
 ``` ruby
 Retryable.retryable(:tries => 5, :on => [ArgumentError, TimeoutError]) do
-  # some crazy code
+  # code here
 end
 ```
 
@@ -55,7 +70,7 @@ Ensure that block of code is executed, regardless of whether an exception was ra
 ``` ruby
 f = File.open("testfile")
 
-ensure_cb = Proc.new do |retries|
+ensure_cb = proc do |retries|
   puts "total retry attempts: #{retries}"
 
   f.close
@@ -68,20 +83,29 @@ end
 
 ## Defaults
 
-    :tries => 2, :on => StandardError, :sleep => 1, :matching  => /.*/, :ensure => Proc.new { }, :exception_cb => Proc.new { }, :not => [], :sleep_method => lambda { |n| Kernel.sleep(n) }
+    :tries => 2,
+    :on => StandardError,
+    :sleep => 1,
+    :matching  => /.*/,
+    :ensure => proc { },
+    :exception_cb => proc { },
+    :not => [],
+    :sleep_method => lambda { |n| Kernel.sleep(n) },
+    :contexts = {}
 
 Retryable also could be configured globally to change those defaults:
 
 ```ruby
 Retryable.configure do |config|
-  config.ensure       = Proc.new {}
-  config.exception_cb = Proc.new {}
+  config.ensure       = proc {}
+  config.exception_cb = proc {}
   config.matching     = /.*/
   config.on           = StandardError
   config.sleep        = 1
   config.tries        = 2
   config.not          = []
   config.sleep_method = Celluloid.method(:sleep)
+  config.contexts     = {}
 end
 ```
 
@@ -102,7 +126,7 @@ You can also retry based on the exception message:
 
 ```ruby
 Retryable.retryable(:matching => /IO timeout/) do |retries, exception|
-  raise "yo, IO timeout!" if retries == 0
+  raise "oops IO timeout!" if retries == 0
 end
 ```
 
@@ -113,7 +137,7 @@ Your block is called with two optional parameters: the number of tries until now
 ```ruby
 Retryable.retryable do |retries, exception|
   puts "try #{retries} failed with exception: #{exception}" if retries > 0
-  pick_up_soap
+  # code here
 end
 ```
 
@@ -121,15 +145,45 @@ Callback to run after an exception is rescued
 --------
 
 ```ruby
-exception_cb = Proc.new do |exception|
+exception_cb = proc do |exception|
   # http://smartinez87.github.io/exception_notification
   ExceptionNotifier.notify_exception(exception, :data => {:message => "it failed"})
 end
 
 Retryable.retryable(:exception_cb => exception_cb) do
-  # perform risky operation
+  # code here
 end
 ```
+
+Contexts
+--------
+
+Contexts allow you to extract common `Retryable.retryable` calling options for reuse or readability purposes.
+
+```ruby
+Retryable.configure do |config|
+  config.contexts[:faulty_service] = {
+    :on => [FaultyServiceTimeoutError],
+    :sleep => 10,
+    :tries => 5
+  }
+end
+
+
+Retryable.with_context(:faulty_service) {
+  # code here
+}
+```
+
+You may also override options defined in your contexts:
+
+```ruby
+# :on & sleep defined in the context earlier are still effective
+Retryable.with_context(:faulty_service, tries: 999) {
+  # code here
+}
+```
+
 
 You can temporary disable retryable blocks
 --------
@@ -165,7 +219,7 @@ which implements its own version of the method sleep.
 
 ```ruby
 Retryable.retryable(:sleep_method => Celluloid.method(:sleep)) do
-  retrieve_url
+  # code here
 end
 ```
 
@@ -175,14 +229,15 @@ Supported Ruby Versions
 This library aims to support and is [tested against][travis] the following Ruby
 versions:
 
-* Ruby 1.8.7
-* Ruby 1.9.2
 * Ruby 1.9.3
 * Ruby 2.0.0
 * Ruby 2.1.2
 * Ruby 2.2.0
 * Ruby 2.3.1
 * Ruby 2.4.0
+* Ruby 2.5.0
+
+*NOTE: if you need `retryable` to be running on Ruby 1.8 use gem versions prior to 3.0.0 release*
 
 If something doesn't work on one of these versions, it's a bug.
 
@@ -191,27 +246,3 @@ however support will only be provided for the versions listed above.
 
 If you would like this library to support another Ruby version or
 implementation, you may volunteer to be a maintainer.
-
-
-Installation
--------
-
-Install the gem:
-
-``` bash
-$ gem install retryable
-```
-
-Add it to your Gemfile:
-
-``` ruby
-gem 'retryable'
-```
-
-## Thanks
-
-[Chu Yeow for this nifty piece of code](http://blog.codefront.net/2008/01/14/retrying-code-blocks-in-ruby-on-exceptions-whatever/)
-
-[Scott Bronson](https://github.com/bronson/retryable)
-
-[travis]: http://travis-ci.org/nfedyashev/retryable
