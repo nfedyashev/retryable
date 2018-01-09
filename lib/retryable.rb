@@ -11,13 +11,15 @@ module Retryable
     #
     # @example
     #   Retryable.configure do |config|
-    #     config.ensure       = Proc.new {}
-    #     config.exception_cb = Proc.new {}
+    #     config.contexts     = {}
+    #     config.ensure       = proc {}
+    #     config.exception_cb = proc {}
     #     config.matching     = /.*/
     #     config.on           = StandardError
     #     config.sleep        = 1
     #     config.tries        = 2
     #     config.not          = []
+    #     config.sleep_method = ->(seconds) { Kernel.sleep(seconds) }
     #   end
     def configure
       yield(configuration)
@@ -28,6 +30,15 @@ module Retryable
     def configuration
       @configuration ||= Configuration.new
     end
+
+    def with_context(context_key, options = {}, &block)
+      unless configuration.contexts.keys.include? context_key
+        raise ArgumentError, "#{context_key} not found in Retryable.configuration.contexts. Available contexts: #{configuration.contexts.keys}"
+      end
+      retryable(configuration.contexts[context_key].merge(options), &block) if block
+    end
+
+    alias retryable_with_context with_context
 
     def enabled?
       configuration.enabled?
