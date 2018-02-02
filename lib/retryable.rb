@@ -62,6 +62,7 @@ module Retryable
 
       on_exception = [opts[:on]].flatten
       not_exception = [opts[:not]].flatten
+      matching = [opts[:matching]].flatten
       tries = opts[:tries]
       retries = 0
       retry_exception = nil
@@ -72,7 +73,7 @@ module Retryable
         raise
       rescue *on_exception => exception
         raise unless configuration.enabled?
-        raise unless exception.message =~ opts[:matching]
+        raise unless matches?(exception.message, matching)
         raise if tries != :infinite && retries + 1 >= tries
 
         # Interrupt Exception could be raised while sleeping
@@ -99,6 +100,19 @@ module Retryable
       invalid_options = default_options.merge(custom_options).keys - default_options.keys
       return if invalid_options.empty?
       raise ArgumentError, "[Retryable] Invalid options: #{invalid_options.join(', ')}"
+    end
+
+    def matches?(message, candidates)
+      candidates.any? do |candidate|
+        case candidate
+        when String
+          message.include?(candidate)
+        when Regexp
+          message =~ candidate
+        else
+          raise ArgumentError, ":matches must be a string or regex"
+        end
+      end
     end
   end
 end
