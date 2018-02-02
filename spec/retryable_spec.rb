@@ -124,6 +124,16 @@ RSpec.describe Retryable do
       expect(counter.count).to eq(1)
     end
 
+    it 'catches an exception in the list of matches' do
+      expect(Kernel).to receive(:sleep).once.with(1)
+      counter(matching: [/IO timeout/, "IO tymeout"]) { |c, _e| raise 'yo, IO timeout!' if c == 0 }
+      expect(counter.count).to eq(2)
+
+      expect(Kernel).to receive(:sleep).once.with(1)
+      counter(matching: [/IO timeout/, "IO tymeout"]) { |c, _e| raise 'yo, IO tymeout!' if c == 0 }
+      expect(counter.count).to eq(4)
+    end
+
     it 'does not allow invalid options' do
       expect do
         described_class.retryable(bad_option: 2) { raise 'this is bad' }
