@@ -2,103 +2,118 @@ require 'retryable/version'
 require 'retryable/configuration'
 
 module Retryable
-  class << self
-    # A Retryable configuration object. Must act like a hash and return sensible
-    # values for all Retryable configuration options. See Retryable::Configuration.
-    attr_writer :configuration
+  extend(self)
 
-    # Call this method to modify defaults in your initializers.
-    #
-    # @example
-    #   Retryable.configure do |config|
-    #     config.contexts     = {}
-    #     config.ensure       = proc {}
-    #     config.exception_cb = proc {}
-    #     config.matching     = /.*/
-    #     config.on           = StandardError
-    #     config.sleep        = 1
-    #     config.tries        = 2
-    #     config.not          = []
-    #     config.sleep_method = ->(seconds) { Kernel.sleep(seconds) }
-    #   end
-    def configure
-      yield(configuration)
+  # A Retryable configuration object. Must act like a hash and return sensible
+  # values for all Retryable configuration options. See Retryable::Configuration.
+  attr_writer :configuration
+
+  # Call this method to modify defaults in your initializers.
+  #
+  # @example
+  #   Retryable.configure do |config|
+  #     config.contexts     = {}
+  #     config.ensure       = proc {}
+  #     config.exception_cb = proc {}
+  #     config.matching     = /.*/
+  #     config.on           = StandardError
+  #     config.sleep        = 1
+  #     config.tries        = 2
+  #     config.not          = []
+  #     config.sleep_method = ->(seconds) { Kernel.sleep(seconds) }
+  #   end
+  def configure
+    yield(configuration)
+  end
+
+  # The configuration object.
+  # @see Retryable.configure
+  def configuration
+    @configuration ||= Configuration.new
+  end
+
+  def with_context(context_key, options = {}, &block)
+    unless configuration.contexts.keys.include? context_key
+      raise ArgumentError, "#{context_key} not found in Retryable.configuration.contexts. Available contexts: #{configuration.contexts.keys}"
     end
+    retryable(configuration.contexts[context_key].merge(options), &block) if block
+  end
 
-    # The configuration object.
-    # @see Retryable.configure
-    def configuration
-      @configuration ||= Configuration.new
-    end
+  alias retryable_with_context with_context
 
-    def with_context(context_key, options = {}, &block)
-      unless configuration.contexts.keys.include? context_key
-        raise ArgumentError, "#{context_key} not found in Retryable.configuration.contexts. Available contexts: #{configuration.contexts.keys}"
-      end
-      retryable(configuration.contexts[context_key].merge(options), &block) if block
-    end
+  def enabled?
+    configuration.enabled?
+  end
 
-    alias retryable_with_context with_context
+  def enable
+    configuration.enable
+  end
 
-    def enabled?
-      configuration.enabled?
-    end
+  def disable
+    configuration.disable
+  end
 
-    def enable
-      configuration.enable
-    end
+  def retryable(options = {})
+    opts = configuration.to_hash
 
-    def disable
-      configuration.disable
-    end
+    check_for_invalid_options(options, opts)
+    opts.merge!(options)
 
-    def retryable(options = {})
-      opts = configuration.to_hash
+    return if opts[:tries] == 0
 
-      check_for_invalid_options(options, opts)
-      opts.merge!(options)
+    on_exception = [opts[:on]].flatten
+    not_exception = [opts[:not]].flatten
+    matching = [opts[:matching]].flatten
+    tries = opts[:tries]
+    retries = 0
+    retry_exception = nil
 
-      return if opts[:tries] == 0
+    begin
+      return yield retries, retry_exception
+    rescue *not_exception
+      raise
+    rescue *on_exception => exception
+      raise unless configuration.enabled?
+      raise unless matches?(exception.message, matching)
+      raise if tries != :infinite && retries + 1 >= tries
 
-      on_exception = [opts[:on]].flatten
-      not_exception = [opts[:not]].flatten
-      tries = opts[:tries]
-      retries = 0
-      retry_exception = nil
-
+      # Interrupt Exception could be raised while sleeping
       begin
-        return yield retries, retry_exception
+        seconds = opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
+        opts[:sleep_method].call(seconds)
       rescue *not_exception
         raise
-      rescue *on_exception => exception
-        raise unless configuration.enabled?
-        raise unless exception.message =~ opts[:matching]
-        raise if tries != :infinite && retries + 1 >= tries
-
-        # Interrupt Exception could be raised while sleeping
-        begin
-          seconds = opts[:sleep].respond_to?(:call) ? opts[:sleep].call(retries) : opts[:sleep]
-          opts[:sleep_method].call(seconds)
-        rescue *not_exception
-          raise
-        rescue *on_exception
-        end
-
-        retries += 1
-        retry_exception = exception
-        opts[:exception_cb].call(retry_exception)
-        retry
-      ensure
-        opts[:ensure].call(retries)
+      rescue *on_exception
       end
-    end
 
-    private
-
-    def check_for_invalid_options(custom_options, default_options)
-      invalid_options = default_options.merge(custom_options).keys - default_options.keys
-      return if invalid_options.empty?
-      raise ArgumentError, "[Retryable] Invalid options: #{invalid_options.join(', ')}"
+      retries += 1
+      retry_exception = exception
+      opts[:exception_cb].call(retry_exception)
+      retry
+    ensure
+      opts[:ensure].call(retries)
     end
   end
+
+  private
+
+  def check_for_invalid_options(custom_options, default_options)
+    invalid_options = default_options.merge(custom_options).keys - default_options.keys
+    return if invalid_options.empty?
+    raise ArgumentError, "[Retryable] Invalid options: #{invalid_options.join(', ')}"
+  end
+
+  def matches?(message, candidates)
+    candidates.any? do |candidate|
+      case candidate
+      when String
+        message.include?(candidate)
+      when Regexp
+        message =~ candidate
+      else
+        raise ArgumentError, ":matches must be a string or regex"
+      end
+    end
+  end
+
 end
