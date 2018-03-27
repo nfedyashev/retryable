@@ -60,8 +60,8 @@ module Retryable
 
       return if opts[:tries] == 0
 
-      on_exception = [opts[:on]].flatten
-      not_exception = [opts[:not]].flatten
+      on_exception = opts[:on].is_a?(Array) ? opts[:on] : [opts[:on]]
+      not_exception = opts[:not].is_a?(Array) ? opts[:not] : [opts[:not]]
       tries = opts[:tries]
       retries = 0
       retry_exception = nil

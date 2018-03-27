@@ -57,6 +57,13 @@ RSpec.describe Retryable do
       expect(counter.count).to eq(2)
     end
 
+    it 'does not retry on :not exception which is covered by Array' do
+      expect do
+        counter(not: [RuntimeError, IndexError]) { |tries| raise RuntimeError if tries < 1 }
+      end.to raise_error RuntimeError
+      expect(counter.count).to eq(1)
+    end
+
     it 'does not try on unexpected exception' do
       allow(Kernel).to receive(:sleep)
       expect do
