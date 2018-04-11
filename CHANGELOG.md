@@ -1,3 +1,7 @@
+## Retryable 3.0.1 ##
+
+*   :matching param from now on could be called in form of array with multiple matching conditions. This version is backwards compatible with 3.0.0
+
 ## Retryable 3.0.0 ##
 NOTE: this version is backwards compatible with 2.0.4 version unless you're running it against Ruby 1.8 version.
 
