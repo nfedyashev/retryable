@@ -128,6 +128,11 @@ You can also retry based on the exception message:
 Retryable.retryable(matching: /IO timeout/) do |retries, exception|
   raise "oops IO timeout!" if retries == 0
 end
+
+#matching param supports array format as well:
+Retryable.retryable(matching: [/IO timeout/, "IO tymeout"]) do |retries, exception|
+  raise "oops IO timeout!" if retries == 0
+end
 ```
 
 Block Parameters
