@@ -57,10 +57,10 @@ end
 ```
 
 Do something, retry up to four times for either `ArgumentError` or
-`TimeoutError` exceptions.
+`Timeout::Error` exceptions.
 
 ``` ruby
-Retryable.retryable(tries: 5, on: [ArgumentError, TimeoutError]) do
+Retryable.retryable(tries: 5, on: [ArgumentError, Timeout::Error]) do
   # code here
 end
 ```
