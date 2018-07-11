@@ -1,8 +1,11 @@
 require 'retryable/version'
 require 'retryable/configuration'
+require 'forwardable'
 
 module Retryable
   class << self
+    extend Forwardable
+
     # A Retryable configuration object. Must act like a hash and return sensible
     # values for all Retryable configuration options. See Retryable::Configuration.
     attr_writer :configuration
@@ -31,6 +34,8 @@ module Retryable
       @configuration ||= Configuration.new
     end
 
+    delegate [:enabled?, :enable, :disable] => :configuration
+
     def with_context(context_key, options = {}, &block)
       unless configuration.contexts.key?(context_key)
         raise ArgumentError, "#{context_key} not found in Retryable.configuration.contexts. Available contexts: #{configuration.contexts.keys}"
@@ -39,18 +44,6 @@ module Retryable
     end
 
     alias retryable_with_context with_context
-
-    def enabled?
-      configuration.enabled?
-    end
-
-    def enable
-      configuration.enable
-    end
-
-    def disable
-      configuration.disable
-    end
 
     def retryable(options = {})
       opts = configuration.to_hash
