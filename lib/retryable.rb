@@ -2,6 +2,7 @@ require 'retryable/version'
 require 'retryable/configuration'
 require 'forwardable'
 
+# Runs a code block, and retries it when an exception occurs. It's great when working with flakey webservices (for example).
 module Retryable
   class << self
     extend Forwardable
@@ -45,13 +46,17 @@ module Retryable
 
     alias retryable_with_context with_context
 
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
     def retryable(options = {})
       opts = configuration.to_hash
 
       check_for_invalid_options(options, opts)
       opts.merge!(options)
 
+      # rubocop:disable Style/NumericPredicate
       return if opts[:tries] == 0
+      # rubocop:enable Style/NumericPredicate
 
       on_exception = opts[:on].is_a?(Array) ? opts[:on] : [opts[:on]]
       not_exception = opts[:not].is_a?(Array) ? opts[:not] : [opts[:not]]
@@ -87,6 +92,8 @@ module Retryable
         opts[:ensure].call(retries)
       end
     end
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
 
     private
 

@@ -1,5 +1,3 @@
-inherit_from: .rubocop_todo.yml
-
 require: rubocop-rspec
 
 Metrics/LineLength:
@@ -8,3 +6,29 @@ Metrics/LineLength:
 Style/SymbolArray:
   Enabled: true
   EnforcedStyle: brackets
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+RSpec/MultipleExpectations:
+  Max: 4
+
+RSpec/ExampleLength:
+  Max: 14
+  Include:
+    - 'spec/retryable_with_context_spec.rb'
+
+RSpec/ExampleLength:
+  Max: 9
+  Exclude:
+    - 'spec/retryable_with_context_spec.rb'

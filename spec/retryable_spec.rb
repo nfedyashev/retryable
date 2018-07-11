@@ -140,6 +140,7 @@ RSpec.describe Retryable do
       end.to raise_error ArgumentError, '[Retryable] Invalid options: bad_option'
     end
 
+    # rubocop:disable Rspec/InstanceVariable
     it 'accepts a callback to run after an exception is rescued' do
       expect do
         described_class.retryable(sleep: 0, exception_cb: proc { |e| @raised = e.to_s }) do |tries|
@@ -149,6 +150,7 @@ RSpec.describe Retryable do
 
       expect(@raised).to eq('this is fun!')
     end
+    # rubocop:enable Rspec/InstanceVariable
 
     it 'does not retry on :not exception' do
       expect do
