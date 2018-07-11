@@ -1,4 +1,7 @@
-lib = File.expand_path('lib', __dir__)
+# rubocop:disable Style/ExpandPathArguments
+lib = File.expand_path('../lib', __FILE__)
+# rubocop:enable Style/ExpandPathArguments
+
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'retryable/version'
 

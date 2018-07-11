@@ -1,7 +1,9 @@
 require 'retryable'
 require 'simplecov'
 
-Dir.glob(File.expand_path('support/**/*.rb', __dir__), &method(:require))
+# rubocop:disable Style/ExpandPathArguments
+Dir.glob(File.expand_path('../support/**/*.rb', __FILE__), &method(:require))
+# rubocop:enable Style/ExpandPathArguments
 
 SimpleCov.start
 
