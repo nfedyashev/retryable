@@ -1,10 +1,7 @@
-sudo: false
-dist: trusty
-
-cache:
-  bundler: true
-
 language: ruby
+bundler_args: --jobs 1 --retry 3 --without development
+cache: bundler
+sudo: true
 
 rvm:
   - 1.9.3
@@ -27,7 +24,18 @@ before_install:
   - gem update --system
   - gem update --remote bundler
 
-bundler_args: --jobs 1 --retry 3 --without development
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 
-after_success:
-  - bundle exec codeclimate-test-reporter
+script:
+  - bundle exec rake
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=3e6be56b2a7bbe02b05521f6d8014aa13e2e0809b485e5f0a21551879a756b20
+    - CF_RUN_PERM_SPECS=false
