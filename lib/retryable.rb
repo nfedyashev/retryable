@@ -32,7 +32,7 @@ module Retryable
     end
 
     def with_context(context_key, options = {}, &block)
-      unless configuration.contexts.keys.include? context_key
+      unless configuration.contexts.key?(context_key)
         raise ArgumentError, "#{context_key} not found in Retryable.configuration.contexts. Available contexts: #{configuration.contexts.keys}"
       end
       retryable(configuration.contexts[context_key].merge(options), &block) if block
@@ -111,7 +111,7 @@ module Retryable
         when Regexp
           message =~ candidate
         else
-          raise ArgumentError, ":matches must be a string or regex"
+          raise ArgumentError, ':matches must be a string or regex'
         end
       end
     end

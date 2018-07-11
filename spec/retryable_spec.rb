@@ -126,11 +126,11 @@ RSpec.describe Retryable do
 
     it 'catches an exception in the list of matches' do
       expect(Kernel).to receive(:sleep).once.with(1)
-      counter(matching: [/IO timeout/, "IO tymeout"]) { |c, _e| raise 'yo, IO timeout!' if c == 0 }
+      counter(matching: [/IO timeout/, 'IO tymeout']) { |c, _e| raise 'yo, IO timeout!' if c == 0 }
       expect(counter.count).to eq(2)
 
       expect(Kernel).to receive(:sleep).once.with(1)
-      counter(matching: [/IO timeout/, "IO tymeout"]) { |c, _e| raise 'yo, IO tymeout!' if c == 0 }
+      counter(matching: [/IO timeout/, 'IO tymeout']) { |c, _e| raise 'yo, IO tymeout!' if c == 0 }
       expect(counter.count).to eq(4)
     end
 
