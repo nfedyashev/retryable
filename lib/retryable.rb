@@ -67,6 +67,7 @@ module Retryable
       retry_exception = nil
 
       begin
+        opts[:logger].info("[Attempt ##{retries}] Retrying because [#{retry_exception.class} - #{retry_exception.message}]: #{retry_exception.backtrace.first(5).join(' | ')}") if retries > 0
         return yield retries, retry_exception
       rescue *not_exception
         raise
