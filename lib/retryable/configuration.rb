@@ -1,5 +1,3 @@
-require 'logger'
-
 module Retryable
   # Used to set up and modify settings for the retryable.
   class Configuration
@@ -7,7 +5,7 @@ module Retryable
       :contexts,
       :ensure,
       :exception_cb,
-      :logger,
+      :log_method,
       :matching,
       :not,
       :on,
@@ -24,7 +22,7 @@ module Retryable
       @contexts     = {}
       @ensure       = proc {}
       @exception_cb = proc {}
-      @logger       = Logger.new(IO::NULL)
+      @log_method   = proc {}
       @matching     = /.*/
       @not          = []
       @on           = StandardError

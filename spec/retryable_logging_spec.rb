@@ -21,7 +21,9 @@ RSpec.describe Retryable do
     context 'given custom STDOUT logger config option' do
       it 'does not output anything' do
         described_class.configure do |config|
-          config.logger = Logger.new STDOUT
+          config.log_method = lambda do |retries, exception|
+             Logger.new(STDOUT).debug("[Attempt ##{retries}] Retrying because [#{exception.class} - #{exception.message}]: #{exception.backtrace.first(5).join(' | ')}")
+          end
         end
 
         expect { retryable.call }.to output(/\[Attempt #1\] Retrying because \[StandardError - because foo\]/).to_stdout_from_any_process
@@ -29,3 +31,4 @@ RSpec.describe Retryable do
     end
   end
 end
+

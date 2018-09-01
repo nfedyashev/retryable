@@ -85,7 +85,7 @@ end
     contexts: {},
     ensure: proc { },
     exception_cb: proc { },
-    logger: Logger.new(IO::NULL),
+    log_method: proc { },
     matching : /.*/,
     not: [],
     on: StandardError,
@@ -100,7 +100,7 @@ Retryable.configure do |config|
   config.contexts     = {}
   config.ensure       = proc {}
   config.exception_cb = proc {}
-  config.logger       = Logger.new(IO:NULL)
+  config.log_method   = proc {}
   config.matching     = /.*/
   config.not          = []
   config.on           = StandardError
@@ -160,6 +160,28 @@ Retryable.retryable(exception_cb: exception_cb) do
   # code here
 end
 ```
+
+Logging
+--------
+
+```ruby
+
+# or extract it to global config instead:
+log_method = lambda do |retries, exception|
+  Logger.new(STDOUT).debug("[Attempt ##{retries}] Retrying because [#{exception.class} - #{exception.message}]: #{exception.backtrace.first(5).join(' | ')}")
+end
+
+Retryable.retryable(log_method: log_method, matching: /IO timeout/) do |retries, exception|
+  raise "oops IO timeout!" if retries == 0
+end
+#D, [2018-09-01T18:19:06.093811 #22535] DEBUG -- : [Attempt #1] Retrying because [RuntimeError - oops IO timeout!]: (irb#1):6:in `block in irb_binding' | /home/nikita/Projects/retryable/lib/retryable.rb:73:in `retryable' | (irb#1):6:in `irb_binding' | /home/nikita/.rvm/rubies/ruby-2.5.0/lib/ruby/2.5.0/irb/workspace.rb:85:in `eval' | /home/nikita/.rvm/rubies/ruby-2.5.0/lib/ruby/2.5.0/irb/workspace.rb:85:in `evaluate'
+```
+
+If you prefer to use Rails' native logger:
+
+log_method = lambda do |retries, exception|
+  Rails.logger.debug("[Attempt ##{retries}] Retrying because [#{exception.class} - #{exception.message}]: #{exception.backtrace.first(5).join(' | ')}")
+end
 
 Contexts
 --------
