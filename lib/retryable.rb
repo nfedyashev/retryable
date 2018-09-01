@@ -18,12 +18,13 @@ module Retryable
     #     config.contexts     = {}
     #     config.ensure       = proc {}
     #     config.exception_cb = proc {}
+    #     config.logger       = Logger.new(IO::NULL)
     #     config.matching     = /.*/
+    #     config.not          = []
     #     config.on           = StandardError
     #     config.sleep        = 1
-    #     config.tries        = 2
-    #     config.not          = []
     #     config.sleep_method = ->(seconds) { Kernel.sleep(seconds) }
+    #     config.tries        = 2
     #   end
     def configure
       yield(configuration)

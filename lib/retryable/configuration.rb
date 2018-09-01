@@ -7,8 +7,8 @@ module Retryable
       :contexts,
       :ensure,
       :exception_cb,
-      :matching,
       :logger,
+      :matching,
       :not,
       :on,
       :sleep,
@@ -24,13 +24,14 @@ module Retryable
       @contexts     = {}
       @ensure       = proc {}
       @exception_cb = proc {}
-      @matching     = /.*/
       @logger       = Logger.new(IO::NULL)
+      @matching     = /.*/
+      @not          = []
       @on           = StandardError
       @sleep        = 1
-      @tries        = 2
-      @not          = []
       @sleep_method = ->(seconds) { Kernel.sleep(seconds) }
+      @tries        = 2
+
       @enabled      = true
     end
 

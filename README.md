@@ -82,29 +82,31 @@ end
 
 ## Defaults
 
-    tries: 2,
-    on: StandardError,
-    sleep: 1,
-    matching : /.*/,
+    contexts: {},
     ensure: proc { },
     exception_cb: proc { },
+    logger: Logger.new(IO::NULL),
+    matching : /.*/,
     not: [],
+    on: StandardError,
+    sleep: 1,
     sleep_method: lambda { |n| Kernel.sleep(n) },
-    contexts: {}
+    tries: 2
 
 Retryable also could be configured globally to change those defaults:
 
 ```ruby
 Retryable.configure do |config|
+  config.contexts     = {}
   config.ensure       = proc {}
   config.exception_cb = proc {}
+  config.logger       = Logger.new(IO:NULL)
   config.matching     = /.*/
+  config.not          = []
   config.on           = StandardError
   config.sleep        = 1
-  config.tries        = 2
-  config.not          = []
   config.sleep_method = Celluloid.method(:sleep)
-  config.contexts     = {}
+  config.tries        = 2
 end
 ```
 
