@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'timeout'
+require 'logger'
 
 RSpec.describe Retryable do
   describe '.retryable' do
