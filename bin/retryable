@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.dirname(__FILE__), "lib")
+require File.expand_path('lib/retryable')
+
+require 'irb'
+IRB.setup nil
+IRB.conf[:MAIN_CONTEXT] = IRB::Irb.new.context
+IRB.irb nil, self
