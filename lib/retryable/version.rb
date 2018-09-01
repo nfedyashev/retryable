@@ -15,7 +15,7 @@ module Retryable
 
     # @return [Integer]
     def patch
-      1
+      2
     end
 
     # @return [Hash]

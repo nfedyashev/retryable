@@ -1,3 +1,7 @@
+## Retryable 3.0.2 ##
+
+*   :log_method param has been added for flexible logging of your retries. It is silent by default.
+
 ## Retryable 3.0.1 ##
 
 *   :matching param from now on could be called in form of array with multiple matching conditions. This version is backwards compatible with 3.0.0
