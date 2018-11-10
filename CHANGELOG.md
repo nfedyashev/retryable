@@ -1,3 +1,8 @@
+## Retryable 3.0.3 ##
+
+No changes to the source code, only added direct Changelog link on
+rubygems.org for ease of use.
+
 ## Retryable 3.0.2 ##
 
 *   :log_method param has been added for flexible logging of your retries. It is silent by default.
