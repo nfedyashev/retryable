@@ -14,6 +14,10 @@ Gem::Specification.new do |spec|
   spec.summary     = 'Retrying code blocks in Ruby'
   spec.description = spec.summary
   spec.homepage    = 'http://github.com/nfedyashev/retryable'
+  spec.metadata = {
+    'changelog_uri' => 'https://github.com/nfedyashev/retryable/blob/master/CHANGELOG.md',
+    'source_code_uri' => 'https://github.com/nfedyashev/retryable/tree/master'
+  }
   spec.licenses    = ['MIT']
 
   spec.require_paths = ['lib']
