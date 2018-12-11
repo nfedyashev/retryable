@@ -13,7 +13,7 @@ Description
 Runs a code block, and retries it when an exception occurs. It's great when
 working with flakey webservices (for example).
 
-It's configured using several optional parameters `:tries`, `:on`, `:sleep`, `:matching`, `:ensure`, `:exception_cb`, `:not`, `:sleep_method` and
+It's configured using several optional parameters `:tries`, `:on`, `:sleep`, `:matching`, `:ensure`, `:exception`, `:exception_cb`, `:not`, `:sleep_method` and
 runs the passed block. Should an exception occur, it'll retry for (n-1) times.
 
 Should the number of retries be reached without success, the last exception
@@ -84,6 +84,7 @@ end
 
     contexts: {},
     ensure: proc { },
+    exception: true,
     exception_cb: proc { },
     log_method: proc { },
     matching : /.*/,
@@ -99,6 +100,7 @@ Retryable also could be configured globally to change those defaults:
 Retryable.configure do |config|
   config.contexts     = {}
   config.ensure       = proc {}
+  config.exception    = true
   config.exception_cb = proc {}
   config.log_method   = proc {}
   config.matching     = /.*/
@@ -110,6 +112,18 @@ Retryable.configure do |config|
 end
 ```
 
+Raise or not when give up
+-------
+By default Retryable raise error after retry `:tries` times.
+You can change to retrun `nil` with `exception: false`
+
+```ruby
+Retryable.retryable(tries: 3) { raise }
+# => raise
+
+Retryable.retryable(tries: 3, exception: false) { raise }
+# => nil
+```
 
 Sleeping
 --------

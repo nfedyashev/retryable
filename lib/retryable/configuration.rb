@@ -4,6 +4,7 @@ module Retryable
     VALID_OPTION_KEYS = [
       :contexts,
       :ensure,
+      :exception,
       :exception_cb,
       :log_method,
       :matching,
@@ -21,6 +22,7 @@ module Retryable
     def initialize
       @contexts     = {}
       @ensure       = proc {}
+      @exception    = true
       @exception_cb = proc {}
       @log_method   = proc {}
       @matching     = /.*/

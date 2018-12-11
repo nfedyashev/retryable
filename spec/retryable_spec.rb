@@ -78,6 +78,12 @@ RSpec.describe Retryable do
       expect(counter.count).to eq(3)
     end
 
+    it 'does not raise exception when exception: false' do
+      expect do
+        counter(tries: 3, exception: false) { raise StandardError }
+      end.not_to raise_error
+    end
+
     it 'retries infinitely' do
       expect do
         Timeout.timeout(3) do
