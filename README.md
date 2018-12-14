@@ -179,9 +179,11 @@ end
 
 If you prefer to use Rails' native logger:
 
+```ruby
 log_method = lambda do |retries, exception|
   Rails.logger.debug("[Attempt ##{retries}] Retrying because [#{exception.class} - #{exception.message}]: #{exception.backtrace.first(5).join(' | ')}")
 end
+```
 
 Contexts
 --------
