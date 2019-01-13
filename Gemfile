@@ -17,9 +17,4 @@ group :test do
   gem 'simplecov', require: false
 end
 
-platforms :rbx do
-  gem 'racc'
-  gem 'rubysl', '~> 2.0'
-end
-
 gemspec

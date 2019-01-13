@@ -12,12 +12,10 @@ rvm:
   - 2.4.3
   - 2.5.0
   - 2.5.1
-  - rbx-2
   - ruby-head
 
 matrix:
   allow_failures:
-    - rvm: rbx-2
     - rvm: ruby-head
   fast_finish: true
 
