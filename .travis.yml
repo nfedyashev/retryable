@@ -1,7 +1,6 @@
-language: ruby
-bundler_args: --jobs 1 --retry 3 --without development
 cache: bundler
-sudo: true
+
+language: ruby
 
 rvm:
   - 1.9.3
@@ -13,14 +12,14 @@ rvm:
   - 2.5.3
   - ruby-head
 
+sudo: true
+
+bundler_args: --jobs 1 --retry 3 --without development
+
 matrix:
   allow_failures:
     - rvm: ruby-head
   fast_finish: true
-
-before_install:
-  - gem update --system
-  - gem update --remote bundler
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
