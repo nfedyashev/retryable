@@ -1,3 +1,8 @@
+## Retryable 3.0.4 ##
+
+Fixed typo in exception message given invalid :matching argument type https://github.com/nfedyashev/retryable/pull/29
+Thanks @msroz
+
 ## Retryable 3.0.3 ##
 
 No changes to the source code, only added direct Changelog link on
@@ -16,7 +21,7 @@ NOTE: this version is backwards compatible with 2.0.4 version unless you're runn
 
 *   retryable can now also be configured via stored contexts.
 *   Ruby 1.8 support has been dropped.
-    
+
     Thanks @chubchenko for refactoring and various improvements.
 
 ## Retryable 2.0.4 ##
@@ -24,7 +29,7 @@ NOTE: this version is backwards compatible with 2.0.4 version unless you're runn
 *   :infinite value is now available as :tries paramater.  Use it for retrying your blocks infinitely until it stops failing.
 *   :sleep_method parameter has been added. This can be very useful when you are working with Celluloid which implements its own version of the method sleep.
     Use `:sleep_method: Celluloid.method(:sleep)` in such cases.
-    
+
     Thanks @alexcastano
 
 ## Retryable 2.0.3 ##
