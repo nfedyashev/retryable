@@ -113,7 +113,7 @@ module Retryable
         when Regexp
           message =~ candidate
         else
-          raise ArgumentError, ':matches must be a string or regex'
+          raise ArgumentError, ':matching must be a string or regex'
         end
       end
     end

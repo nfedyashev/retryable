@@ -134,6 +134,12 @@ RSpec.describe Retryable do
       expect(counter.count).to eq(4)
     end
 
+    it 'does not allow invalid type of matching option' do
+      expect do
+        described_class.retryable(matching: 1) { raise 'this is invaid type of matching iotion' }
+      end.to raise_error ArgumentError, ':matching must be a string or regex'
+    end
+
     it 'does not allow invalid options' do
       expect do
         described_class.retryable(bad_option: 2) { raise 'this is bad' }
