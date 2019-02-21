@@ -261,11 +261,12 @@ versions:
 
 * Ruby 1.9.3
 * Ruby 2.0.0
-* Ruby 2.1.2
-* Ruby 2.2.0
-* Ruby 2.3.1
-* Ruby 2.4.0
-* Ruby 2.5.0
+* Ruby 2.1.10
+* Ruby 2.2.10
+* Ruby 2.3.8
+* Ruby 2.4.5
+* Ruby 2.5.3
+* Ruby 2.6.1
 
 *NOTE: if you need `retryable` to be running on Ruby 1.8 use gem versions prior to 3.0.0 release*
 
