@@ -50,9 +50,11 @@ end
 
 Try the block forever.
 ```ruby
-Retryable.retryable(tries: :infinite) do
+# For ruby versions prior to 1.9.2 use :infinite symbol instead
+Retryable.retryable(tries: Float::INFINITY) do
   # code here
 end
+
 ```
 
 Do something, retry up to four times for either `ArgumentError` or

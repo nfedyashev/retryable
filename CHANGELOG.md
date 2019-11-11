@@ -1,3 +1,9 @@
+## Retryable 3.0.5 ##
+
+Instead of :infinite magic constant from now on you can just use Ruby's native infinity data type e.g. Float::INFINITY.
+See https://github.com/nfedyashev/retryable/commit/16f60bb09560c9470266dca8cd47c934594a67c5
+This version is backwards compatible with older versions, no changes needed in your code.
+
 ## Retryable 3.0.4 ##
 
 Fixed typo in exception message given invalid :matching argument type https://github.com/nfedyashev/retryable/pull/29
