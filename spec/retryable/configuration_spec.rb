@@ -21,6 +21,22 @@ RSpec.describe Retryable do
     end
   end
 
+  context 'when configured locally' do
+    it 'does not affect the original global config' do
+      new_sleep = 2
+      original_sleep = described_class.configuration.send(:sleep)
+
+      expect(original_sleep).not_to eq(new_sleep)
+
+      counter(tries: 2, sleep: new_sleep) do |tries, ex|
+        raise StandardError if tries < 1
+      end
+
+      actual = described_class.configuration.send(:sleep)
+      expect(actual).to eq(original_sleep)
+    end
+  end
+
   context 'when configured globally with custom sleep parameter' do
     it 'passes retry count and exception on retry' do
       expect(Kernel).to receive(:sleep).once.with(3)
