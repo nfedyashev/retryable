@@ -78,14 +78,29 @@ RSpec.describe Retryable do
       expect(counter.count).to eq(3)
     end
 
-    it 'retries infinitely' do
-      expect do
-        Timeout.timeout(3) do
-          counter(tries: :infinite, sleep: 0.1) { raise StandardError }
-        end
-      end.to raise_error Timeout::Error
+    context 'infinite retries' do
+      example 'with magic constant' do
+        expect do
+          Timeout.timeout(3) do
+            counter(tries: :infinite, sleep: 0.1) { raise StandardError }
+          end
+        end.to raise_error Timeout::Error
 
-      expect(counter.count).to be > 10
+        expect(counter.count).to be > 10
+      end
+
+      example 'with native infinity data type' do
+        expect do
+          require 'bigdecimal'
+
+          tries = [Float::INFINITY, BigDecimal::INFINITY, BigDecimal("1.0") / BigDecimal("0.0")]
+          Timeout.timeout(3) do
+            counter(tries: tries.sample, sleep: 0.1) { raise StandardError }
+          end
+        end.to raise_error Timeout::Error
+
+        expect(counter.count).to be > 10
+      end
     end
 
     it 'executes exponential backoff scheme for :sleep option' do

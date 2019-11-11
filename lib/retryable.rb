@@ -75,7 +75,9 @@ module Retryable
       rescue *on_exception => exception
         raise unless configuration.enabled?
         raise unless matches?(exception.message, matching)
-        raise if tries != :infinite && retries + 1 >= tries
+
+        infinite_retries = :infinite || tries.respond_to?(:infinite?) && tries.infinite?
+        raise if tries != infinite_retries && retries + 1 >= tries
 
         # Interrupt Exception could be raised while sleeping
         begin
