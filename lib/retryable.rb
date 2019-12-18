@@ -76,8 +76,8 @@ module Retryable
         raise unless configuration.enabled?
         raise unless matches?(exception.message, matching)
 
-        infinite_retries = :infinite || tries.respond_to?(:infinite?) && tries.infinite?
-        raise if tries != infinite_retries && retries + 1 >= tries
+        infinite_retries = tries == :infinite || tries.respond_to?(:infinite?) && tries.infinite? == 1
+        raise if !infinite_retries && retries + 1 >= tries
 
         # Interrupt Exception could be raised while sleeping
         begin
