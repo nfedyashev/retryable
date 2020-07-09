@@ -7,6 +7,15 @@
 
 [![Inline docs](http://inch-ci.org/github/nfedyashev/retryable.svg?branch=master)](http://inch-ci.org/github/nfedyashev/retryable)
 
+Status
+--------
+
+>Retryable hasn't seen any new commits for the past 6+ months, is it abandoned?
+
+**No**, I believe it should be considered as complete instead.
+
+There might be minor updates to the documentation and Travis config for future Ruby versions.
+
 Description
 --------
 
