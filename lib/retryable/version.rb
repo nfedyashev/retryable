@@ -18,7 +18,7 @@ module Retryable
       5
     end
 
-    # @return [Hash]
+    # @return [Hash{Symbol => Integer}]
     def to_h
       {
         major: major,
@@ -27,7 +27,7 @@ module Retryable
       }
     end
 
-    # @return [Hash]
+    # @return [Array<Integer>]
     def to_a
       [major, minor, patch].compact
     end
