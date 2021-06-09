@@ -72,10 +72,16 @@ RSpec.describe Retryable do
       expect(counter.count).to eq(1)
     end
 
-    it 'retries three times' do
+    it 'tries three times when "tries" option is set to 3' do
       allow(Kernel).to receive(:sleep)
       counter(tries: 3) { |tries| raise StandardError if tries < 2 }
       expect(counter.count).to eq(3)
+    end
+
+    it 'tries four times when "retries" option is set to 3' do
+      allow(Kernel).to receive(:sleep)
+      counter(retries: 3) { |tries| raise StandardError if tries < 3 }
+      expect(counter.count).to eq(4)
     end
 
     context 'infinite retries' do

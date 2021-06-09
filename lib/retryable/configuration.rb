@@ -11,7 +11,8 @@ module Retryable
       :on,
       :sleep,
       :sleep_method,
-      :tries
+      :tries,
+      :retries
     ].freeze
 
     attr_accessor(*VALID_OPTION_KEYS)

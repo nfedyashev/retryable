@@ -54,6 +54,7 @@ module Retryable
 
       check_for_invalid_options(options, opts)
       opts.merge!(options)
+      opts[:tries] = opts[:retries] + 1 if opts[:retries]
 
       # rubocop:disable Style/NumericPredicate
       return if opts[:tries] == 0
