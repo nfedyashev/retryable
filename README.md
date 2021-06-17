@@ -270,14 +270,16 @@ Supported Ruby Versions
 This library aims to support and is [tested against][travis] the following Ruby
 versions:
 
-* Ruby 1.9.3
-* Ruby 2.0.0
-* Ruby 2.1.10
-* Ruby 2.2.10
-* Ruby 2.3.8
-* Ruby 2.4.5
-* Ruby 2.5.3
-* Ruby 2.6.1
+* Ruby 1.9
+* Ruby 2.0
+* Ruby 2.1
+* Ruby 2.2
+* Ruby 2.3
+* Ruby 2.4
+* Ruby 2.5
+* Ruby 2.6
+* Ruby 2.7
+* Ruby 3.0
 
 *NOTE: if you need `retryable` to be running on Ruby 1.8 use gem versions prior to 3.0.0 release*
 
