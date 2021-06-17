@@ -1,7 +1,7 @@
 # Retryable
 
 [![Gem Version](https://badge.fury.io/rb/retryable.svg)](https://badge.fury.io/rb/retryable)
-[![Build Status](https://travis-ci.org/nfedyashev/retryable.png?branch=master)](https://travis-ci.org/nfedyashev/retryable)
+[![Build Status](https://travis-ci.com/nfedyashev/retryable.png?branch=master)](https://travis-ci.com/nfedyashev/retryable)
 [![Code Climate](https://codeclimate.com/github/nfedyashev/retryable/badges/gpa.svg)](https://codeclimate.com/github/nfedyashev/retryable)
 [![Test Coverage](https://codeclimate.com/github/nfedyashev/retryable/badges/coverage.svg)](https://codeclimate.com/github/nfedyashev/retryable/coverage)
 
