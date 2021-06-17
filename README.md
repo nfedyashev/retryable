@@ -204,9 +204,9 @@ Contexts allow you to extract common `Retryable.retryable` calling options for r
 ```ruby
 Retryable.configure do |config|
   config.contexts[:faulty_service] = {
-    :on: [FaultyServiceTimeoutError],
-    :sleep: 10,
-    :tries: 5
+    on: [FaultyServiceTimeoutError],
+    sleep: 10,
+    tries: 5
   }
 end
 
