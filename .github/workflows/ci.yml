@@ -22,3 +22,9 @@ jobs:
           bundler-cache: true
       - run: bundle exec rake
         continue-on-error: ${{ matrix.ruby == 'head' }}
+      - uses: paambaati/codeclimate-action@v3.0.0
+        if: ${{ matrix.ruby == '2.7' }} # 3.0 is failed due to the old json gem's version
+        with:
+          coverageLocations: '${{ github.workspace }}/coverage/coverage.json:simplecov'
+        env:
+          CC_TEST_REPORTER_ID: 3e6be56b2a7bbe02b05521f6d8014aa13e2e0809b485e5f0a21551879a756b20
