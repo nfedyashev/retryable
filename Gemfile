@@ -3,10 +3,6 @@ source 'http://rubygems.org'
 gem 'rake', '~> 10.4'
 gem 'yard'
 
-# because json 2.3.0 is incompatible with Ruby 1.9.3
-# https://stackoverflow.com/a/59368273/74089
-gem 'json', '= 1.8.6'
-
 group :development do
   gem 'fasterer'
   gem 'overcommit'
