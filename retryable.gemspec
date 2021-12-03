@@ -15,8 +15,7 @@ Gem::Specification.new do |spec|
   spec.description = spec.summary
   spec.homepage    = 'http://github.com/nfedyashev/retryable'
 
-  puts RUBY_VERSION
-  unless RUBY_VERSION === '1.9.0'
+  if spec.respond_to?('metadata=')
     spec.metadata = {
       'changelog_uri' => 'https://github.com/nfedyashev/retryable/blob/master/CHANGELOG.md',
       'source_code_uri' => 'https://github.com/nfedyashev/retryable/tree/master'
