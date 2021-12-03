@@ -84,19 +84,17 @@ end
 
 ## Defaults
 
-| Key          | Value                               |
-| ------------ | ----------------------------------- |
-| contexts     | `{}`                                |
-| ensure       | `proc { }`                          |
-| exception_cb | `proc { }`                          |
-| log_method   | `proc { }`                          |
-| matching     | `/.*/`                              |
-| not          | `[]`                                |
-| on           | `StandardError`                     |
-| sleep        | `1`                                 |
-| sleep_method | `lambda do |n| Kernel.sleep(n) end` |
-| tries        | `2`                                 |
 
+    contexts: {},
+    ensure: proc { },
+    exception_cb: proc { },
+    log_method: proc { },
+    matching : /.*/,
+    not: [],
+    on: StandardError,
+    sleep: 1,
+    sleep_method: lambda { |n| Kernel.sleep(n) },
+    tries: 2
 
 Retryable also could be configured globally to change those defaults:
 
