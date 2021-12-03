@@ -16,9 +16,9 @@ group :development do
 end
 
 group :test do
-  gem 'codeclimate-test-reporter'
   gem 'rspec', '~> 3.1'
   gem 'simplecov', require: false
+  gem 'simplecov_json_formatter', require: false
 end
 
 gemspec
