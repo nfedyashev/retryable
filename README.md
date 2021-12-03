@@ -266,8 +266,7 @@ end
 Supported Ruby Versions
 -------
 
-This library aims to support and is [tested against][travis] the following Ruby
-versions:
+This library aims to support and is tested against the following Ruby versions:
 
 * Ruby 1.9
 * Ruby 2.0
