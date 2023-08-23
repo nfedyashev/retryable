@@ -66,7 +66,7 @@ Retryable.retryable(tries: 5, on: [ArgumentError, Timeout::Error]) do
 end
 ```
 
-Ensure that block of code is executed, regardless of whether an exception was raised. It doesn't matter if the block exits normally, if it retries to execute block of code, or if it is terminated by an uncaught exception -- the ensure block will get run.
+Ensure that the block of code is executed, regardless of whether an exception was raised. It doesn't matter if the block exits normally, if it retries to execute the block of code, or if it is terminated by an uncaught exception -- the `:ensure` block will get run.
 
 ``` ruby
 f = File.open("testfile")
@@ -108,7 +108,7 @@ Retryable.configure do |config|
   config.not          = []
   config.on           = StandardError
   config.sleep        = 1
-  config.sleep_method = Celluloid.method(:sleep)
+  config.sleep_method = lambda { |n| Kernel.sleep(n) }
   config.tries        = 2
 end
 ```
@@ -116,7 +116,7 @@ end
 
 Sleeping
 --------
-By default Retryable waits for one second between retries. You can change this and even provide your own exponential backoff scheme.
+By default, Retryable waits for one second between retries. You can change this and even provide your own exponential backoff scheme.
 
 ```ruby
 Retryable.retryable(sleep: 0) { }                     # don't pause at all between retries
@@ -245,7 +245,7 @@ end
 
 ```
 
-Specify the sleep method to use
+Specify the `:sleep_method` to use
 --------
 This can be very useful when you are working with [Celluloid](https://github.com/celluloid/celluloid)
 which implements its own version of the method sleep.
