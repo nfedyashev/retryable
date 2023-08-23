@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        ruby: [1.9, '2.0', 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, '3.0', 3.1, 3.2, head]
+        ruby: ['1.9', '2.0', '2.1', '2.2', '2.3', '2.4', '2.5', '2.6', '2.7', '3.0', '3.1', '3.2', '3.3.0-preview1', head]
     runs-on: ${{ matrix.os }}
     env:
       BUNDLE_WITHOUT: development
