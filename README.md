@@ -261,7 +261,7 @@ Supported Ruby Versions
 
 This library aims to support and is tested against the following Ruby versions:
 
-* Ruby 3.3.0-preview1
+* Ruby 3.3
 * Ruby 3.2
 * Ruby 3.1
 * Ruby 3.0
