@@ -12,6 +12,7 @@ group :development do
 end
 
 group :test do
+  gem 'bigdecimal'
   gem 'rspec', '~> 3.1'
 end
 
