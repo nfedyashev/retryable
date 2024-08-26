@@ -273,8 +273,6 @@ This library aims to support and is tested against the following Ruby versions:
 * Ruby 2.2
 * Ruby 2.1
 * Ruby 2.0
-* Ruby 1.9
-
 
 *NOTE: if you need `retryable` to be running on Ruby 1.8 use gem versions prior to 3.0.0 release*
 
