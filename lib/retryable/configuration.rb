@@ -3,6 +3,8 @@
 module Retryable
   # Used to set up and modify settings for the retryable.
   class Configuration
+    NOOP_PROC = proc {}.freeze
+
     VALID_OPTION_KEYS = [
       :contexts,
       :ensure,
@@ -22,9 +24,9 @@ module Retryable
 
     def initialize
       @contexts     = {}
-      @ensure       = proc {}
-      @exception_cb = proc {}
-      @log_method   = proc {}
+      @ensure       = NOOP_PROC
+      @exception_cb = NOOP_PROC
+      @log_method   = NOOP_PROC
       @matching     = /.*/
       @not          = []
       @on           = StandardError
