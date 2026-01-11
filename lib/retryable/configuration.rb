@@ -40,7 +40,10 @@ module Retryable
     def enable
       @enabled = true
     end
-    alias enabled? enabled
+
+    def enabled?
+      @enabled
+    end
 
     def disable
       @enabled = false
