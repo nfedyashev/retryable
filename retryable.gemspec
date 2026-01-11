@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # rubocop:disable Style/ExpandPathArguments
 lib = File.expand_path('../lib', __FILE__)
 # rubocop:enable Style/ExpandPathArguments

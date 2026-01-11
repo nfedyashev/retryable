@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Retryable
   # Used to set up and modify settings for the retryable.
   class Configuration

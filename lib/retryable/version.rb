@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Retryable
   # This module holds the Retryable version information.
   module Version

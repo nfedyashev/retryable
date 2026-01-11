@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'retryable/version'
 require 'retryable/configuration'
 require 'forwardable'
