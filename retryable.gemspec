@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
   if spec.respond_to?('metadata=')
     spec.metadata = {
       'changelog_uri' => 'https://github.com/nfedyashev/retryable/blob/master/CHANGELOG.md',
-      'source_code_uri' => 'https://github.com/nfedyashev/retryable/tree/master'
-      # 'rubygems_mfa_required' => true # preparation for future release - expect it to be MFA signed
+      'source_code_uri' => 'https://github.com/nfedyashev/retryable/tree/master',
+      'rubygems_mfa_required' => 'true'
     }
   end
   spec.licenses    = ['MIT']
