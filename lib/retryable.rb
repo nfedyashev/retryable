@@ -106,7 +106,10 @@ module Retryable
     def check_for_invalid_options(custom_options, default_options)
       invalid_options = default_options.merge(custom_options).keys - default_options.keys
       return if invalid_options.empty?
-      raise ArgumentError, "[Retryable] Invalid options: #{invalid_options.join(', ')}"
+
+      raise ArgumentError,
+        "[Retryable] Invalid options: #{invalid_options.join(', ')}. " \
+        "Valid options are: #{default_options.keys.join(', ')}"
     end
 
     def matches?(message, candidates)

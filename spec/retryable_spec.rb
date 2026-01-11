@@ -158,7 +158,7 @@ RSpec.describe Retryable do
     it 'does not allow invalid options' do
       expect do
         described_class.retryable(bad_option: 2) { raise 'this is bad' }
-      end.to raise_error ArgumentError, '[Retryable] Invalid options: bad_option'
+      end.to raise_error ArgumentError, '[Retryable] Invalid options: bad_option. Valid options are: contexts, ensure, exception_cb, log_method, matching, not, on, sleep, sleep_method, tries'
     end
 
     # rubocop:disable Rspec/InstanceVariable
