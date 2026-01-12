@@ -44,6 +44,7 @@ module Retryable
       unless configuration.contexts.key?(context_key)
         raise ArgumentError, "#{context_key} not found in Retryable.configuration.contexts. Available contexts: #{configuration.contexts.keys}"
       end
+
       retryable(configuration.contexts[context_key].merge(options), &block) if block
     end
 
@@ -108,8 +109,8 @@ module Retryable
       return if invalid_options.empty?
 
       raise ArgumentError,
-        "[Retryable] Invalid options: #{invalid_options.join(', ')}. " \
-        "Valid options are: #{default_options.keys.join(', ')}"
+            "[Retryable] Invalid options: #{invalid_options.join(', ')}. " \
+            "Valid options are: #{default_options.keys.join(', ')}"
     end
 
     def matches?(message, candidates)

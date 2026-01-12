@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
       'rubygems_mfa_required' => 'true'
     }
   end
-  spec.licenses    = ['MIT']
+  spec.licenses = ['MIT']
 
   spec.require_paths = ['lib']
   spec.files         = Dir['{config,lib,spec}/**/*', '*.md', '*.gemspec', 'Gemfile', 'Rakefile']

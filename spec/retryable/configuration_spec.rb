@@ -28,7 +28,7 @@ RSpec.describe Retryable do
 
       expect(original_sleep).not_to eq(new_sleep)
 
-      counter(tries: 2, sleep: new_sleep) do |tries, ex|
+      counter(tries: 2, sleep: new_sleep) do |tries, _ex|
         raise StandardError if tries < 1
       end
 

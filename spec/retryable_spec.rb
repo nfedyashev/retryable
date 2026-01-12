@@ -93,7 +93,7 @@ RSpec.describe Retryable do
         expect do
           require 'bigdecimal'
 
-          tries = [Float::INFINITY, BigDecimal::INFINITY, BigDecimal("1.0") / BigDecimal("0.0")]
+          tries = [Float::INFINITY, BigDecimal::INFINITY, BigDecimal('1.0') / BigDecimal('0.0')]
           Timeout.timeout(3) do
             counter(tries: tries.sample, sleep: 0.1) { raise StandardError }
           end
@@ -158,7 +158,8 @@ RSpec.describe Retryable do
     it 'does not allow invalid options' do
       expect do
         described_class.retryable(bad_option: 2) { raise 'this is bad' }
-      end.to raise_error ArgumentError, '[Retryable] Invalid options: bad_option. Valid options are: contexts, ensure, exception_cb, log_method, matching, not, on, sleep, sleep_method, tries'
+      end.to raise_error ArgumentError,
+                         '[Retryable] Invalid options: bad_option. Valid options are: contexts, ensure, exception_cb, log_method, matching, not, on, sleep, sleep_method, tries'
     end
 
     # rubocop:disable Rspec/InstanceVariable
