@@ -1,7 +1,7 @@
 # Retryable
 
 [![Gem Version](https://badge.fury.io/rb/retryable.svg)](https://badge.fury.io/rb/retryable)
-[![Gem](https://img.shields.io/gem/dt/retryable?style=plastic)](https://rubygems.org/gems/retryable)
+[![downloads](https://img.shields.io/gem/dt/retryable?style=plastic)](https://rubygems.org/gems/retryable)
 [![Inline docs](http://inch-ci.org/github/nfedyashev/retryable.svg?branch=master)](http://inch-ci.org/github/nfedyashev/retryable)
 
 
