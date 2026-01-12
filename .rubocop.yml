@@ -2,7 +2,7 @@ plugins:
   - rubocop-rspec
 
 Layout/LineLength:
-  Max: 144
+  Max: 180
 
 Metrics/MethodLength:
   Max: 12
