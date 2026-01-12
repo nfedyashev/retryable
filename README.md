@@ -1,5 +1,6 @@
 # Retryable
 
+[![tests](https://github.com/nfedyashev/retryable/actions/workflows/ci.yml/badge.svg)](https://github.com/nfedyashev/retryable/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/retryable.svg)](https://badge.fury.io/rb/retryable)
 [![downloads](https://img.shields.io/gem/dt/retryable?style=plastic)](https://rubygems.org/gems/retryable)
 [![Inline docs](http://inch-ci.org/github/nfedyashev/retryable.svg?branch=master)](http://inch-ci.org/github/nfedyashev/retryable)
