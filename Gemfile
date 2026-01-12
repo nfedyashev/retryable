@@ -12,7 +12,7 @@ end
 
 group :test do
   gem 'bigdecimal'
-  gem 'logger'
+  gem 'logger' if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('4.0.0')
   gem 'rspec', '~> 3.1'
 end
 
