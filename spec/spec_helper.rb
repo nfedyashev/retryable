@@ -1,5 +1,5 @@
 require 'retryable'
-require File.expand_path('../support/counter', __FILE__)
+require File.expand_path('support/counter', __dir__)
 
 RSpec.configure do |config|
   config.disable_monkey_patching!
