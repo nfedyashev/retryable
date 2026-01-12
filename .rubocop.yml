@@ -7,6 +7,9 @@ Layout/LineLength:
 Metrics/MethodLength:
   Max: 12
 
+RSpec/ContextWording:
+  Enabled: false
+
 Style/SymbolArray:
   Enabled: true
   EnforcedStyle: brackets
