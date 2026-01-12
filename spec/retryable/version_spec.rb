@@ -2,9 +2,11 @@ require 'spec_helper'
 
 RSpec.describe Retryable::Version do
   before do
-    allow(described_class).to receive(:major).and_return(2)
-    allow(described_class).to receive(:minor).and_return(0)
-    allow(described_class).to receive(:patch).and_return(4)
+    allow(described_class).to receive_messages(
+      major: 2,
+      minor: 0,
+      patch: 4
+    )
   end
 
   describe '.to_h' do
