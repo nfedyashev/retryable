@@ -22,7 +22,7 @@ RSpec.describe Retryable do
       it 'does not output anything' do
         described_class.configure do |config|
           config.log_method = lambda do |retries, exception|
-            Logger.new(STDOUT).debug("[Attempt ##{retries}] Retrying because [#{exception.class} - #{exception.message}]: #{exception.backtrace.first(5).join(' | ')}")
+            Logger.new($stdout).debug("[Attempt ##{retries}] Retrying because [#{exception.class} - #{exception.message}]: #{exception.backtrace.first(5).join(' | ')}")
           end
         end
 
