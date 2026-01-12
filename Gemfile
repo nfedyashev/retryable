@@ -5,7 +5,6 @@ gem 'yard'
 
 group :development do
   gem 'fasterer'
-  gem 'overcommit'
   gem 'pry', '= 0.9.12.6'
   gem 'rubocop'
   gem 'rubocop-rspec'
