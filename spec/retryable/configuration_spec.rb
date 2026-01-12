@@ -1,6 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe Retryable do
+RSpec.describe 'Retryable Configuration' do
+  let(:described_class) { Retryable }
   it 'is enabled by default' do
     expect(described_class).to be_enabled
   end
