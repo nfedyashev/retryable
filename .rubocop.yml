@@ -1,6 +1,6 @@
 require: rubocop-rspec
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 144
 
 Style/SymbolArray:
