@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe 'Retryable Configuration' do
-  let(:described_class) { Retryable }
+# rubocop:disable RSpec/SpecFilePathFormat
+RSpec.describe Retryable do
   it 'is enabled by default' do
     expect(described_class).to be_enabled
   end
@@ -54,3 +54,4 @@ RSpec.describe 'Retryable Configuration' do
     end
   end
 end
+# rubocop:enable RSpec/SpecFilePathFormat
