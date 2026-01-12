@@ -7,6 +7,9 @@ Layout/LineLength:
 Metrics/MethodLength:
   Max: 12
 
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+
 RSpec/ContextWording:
   Enabled: false
 
