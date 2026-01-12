@@ -4,6 +4,9 @@ plugins:
 Layout/LineLength:
   Max: 144
 
+Metrics/MethodLength:
+  Max: 12
+
 Style/SymbolArray:
   Enabled: true
   EnforcedStyle: brackets
