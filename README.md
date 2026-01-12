@@ -2,8 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/retryable.svg)](https://badge.fury.io/rb/retryable)
 [![Gem](https://img.shields.io/gem/dt/retryable?style=plastic)](https://rubygems.org/gems/retryable)
-[![Code Climate](https://codeclimate.com/github/nfedyashev/retryable/badges/gpa.svg)](https://codeclimate.com/github/nfedyashev/retryable)
-[![Test Coverage](https://codeclimate.com/github/nfedyashev/retryable/badges/coverage.svg)](https://codeclimate.com/github/nfedyashev/retryable/coverage)
 [![Inline docs](http://inch-ci.org/github/nfedyashev/retryable.svg?branch=master)](http://inch-ci.org/github/nfedyashev/retryable)
 
 
