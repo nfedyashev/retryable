@@ -9,7 +9,7 @@ RSpec.describe Retryable do
     end
 
     let(:retryable) do
-      -> { Retryable.retryable(tries: 2) { |tries| raise StandardError, 'because foo' if tries < 1 } }
+      -> { described_class.retryable(tries: 2) { |tries| raise StandardError, 'because foo' if tries < 1 } }
     end
 
     context 'given default configuration' do
