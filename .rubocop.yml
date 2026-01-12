@@ -35,10 +35,3 @@ RSpec/MultipleExpectations:
 
 RSpec/ExampleLength:
   Max: 14
-  Include:
-    - 'spec/retryable_with_context_spec.rb'
-
-RSpec/ExampleLength:
-  Max: 9
-  Exclude:
-    - 'spec/retryable_with_context_spec.rb'
